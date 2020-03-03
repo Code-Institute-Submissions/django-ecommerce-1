@@ -1,0 +1,34 @@
+<nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+    <a href="{% url 'home' %}" class="navbar-brand">Petstore</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav d-md-flex-row ml-md-auto d-md-flex order-md-2">
+            {% if user.is_authenticated %}
+            <li class="nav-item mr-md-3">
+                <span class="navbar-text"><strong>Welcome {{ user.username|title }}</strong></span>
+            </li>
+            <li class="nav-item">
+                <a href="" class="nav-link">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'account_logout' %}" class="nav-link">Logout</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a href="{% url 'account_signup' %}" class="nav-link">Register</a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'account_login' %}" class="nav-link">Login</a>
+            </li>
+            {% endif %}
+        </ul>
+        <form class="form-inline order-md-1">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
