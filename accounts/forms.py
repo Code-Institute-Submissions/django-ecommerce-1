@@ -6,7 +6,9 @@ class CustomUserCreationForm(UserCreationForm):
     """Updated for customer user model"""
     class Meta:
         model = get_user_model()
-        fields = '__all__'
+        fields = ('username', 'password1', 'password2', 'first_name',
+                  'last_name', 'email', 'date_of_birth', 'address', 'city',
+                  'country', 'post_code', )
 
 
 class CustomUserChangeForm(UserChangeForm):
