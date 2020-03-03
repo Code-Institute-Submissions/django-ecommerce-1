@@ -1,8 +1,9 @@
 from django.test import TestCase
+from django.urls import reverse, resolve
 from django.contrib.auth import get_user_model
 
 
-class CustomUserTests(TestCase):
+class CustomUserModelTests(TestCase):
     """Test user defined CustomUser model"""
 
     def setUp(self):
@@ -43,3 +44,25 @@ class CustomUserTests(TestCase):
         self.assertTrue(user.is_active)
         self.assertTrue(user.is_staff)
         self.assertTrue(user.is_superuser)
+
+
+class RegisterPageTests(TestCase):
+    """Registration page functionality testing"""
+
+    def setUp(self):
+        url = reverse('account_signup')
+        self.response = self.client.get(url)
+
+    def test_register_page_exists(self):
+        """Check that the page loads successfully"""
+        self.assertEquals(self.response.status_code, 200)
+
+    def test_register_template(self):
+        """Check that the intended template is being used"""
+        self.assertTemplateUsed(
+            self.response, template_name='account/signup.html')
+        self.assertContains(self.response, 'Register')
+
+    def test_register_form_contains_csrf(self):
+        """The form contains csrf token"""
+        self.assertContains(self.response, 'csrfmiddlewaretoken')
