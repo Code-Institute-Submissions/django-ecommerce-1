@@ -21,6 +21,7 @@ class CustomUserChangeForm(UserChangeForm):
 
 
 class CustomSignupForm(forms.Form):
+    """Override the default allauth signup form"""
     first_name = forms.CharField(max_length=50)
     last_name = forms.CharField(max_length=50)
     address = forms.CharField(max_length=255)
@@ -39,3 +40,10 @@ class CustomSignupForm(forms.Form):
         user.date_of_birth = self.cleaned_data['date_of_birth']
         user.save()
         return user
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = get_user_model()
+        fields = ('first_name', 'last_name', 'date_of_birth',
+                  'address', 'city', 'country', 'post_code')

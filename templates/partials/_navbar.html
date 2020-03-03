@@ -12,7 +12,7 @@
                 <span class="navbar-text"><strong>Welcome {{ user.username|title }}</strong></span>
             </li>
             <li class="nav-item">
-                <a href="" class="nav-link">Profile</a>
+                <a href="{% url 'profile' %}" class="nav-link">Profile</a>
             </li>
             <li class="nav-item">
                 <a href="{% url 'account_logout' %}" class="nav-link">Logout</a>

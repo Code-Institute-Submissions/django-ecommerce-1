@@ -66,3 +66,71 @@ class RegisterPageTests(TestCase):
     def test_register_form_contains_csrf(self):
         """The form contains csrf token"""
         self.assertContains(self.response, 'csrfmiddlewaretoken')
+
+
+class ProfilePageTests(TestCase):
+    """User profile page functionality testing"""
+
+    def setUp(self):
+        url = reverse('profile')
+        self.public_response = self.client.get(url)
+
+        self.account = {
+            'username': 'test_user',
+            'first_name': 'Test',
+            'last_name': 'User',
+            'email': 'test_user@test.com',
+            'password': 'really_tough_password1!',
+            'address': '123 Coders Drive',
+            'city': 'Big City',
+            'country': 'Python',
+            'post_code': 'PY11 2CD',
+            'date_of_birth': '1981-03-01'
+        }
+
+        user = get_user_model().objects.create_user(**self.account)
+        self.client.login(username='test_user')
+
+    def test_page_not_accessible_by_public(self):
+        """The page should only be accessible when the user is logged in"""
+        self.assertRedirects(self.public_response,
+                             '/accounts/login/?next=/accounts/profile/')
+
+        self.assertTemplateNotUsed(
+            self.public_response, template_name='account/profile.html')
+
+    def test_page_accessible_when_logged_in(self):
+        """The page should be accessible when the user is logged in"""
+        self.client.login(email='test_user@test.com',
+                          password='really_tough_password1!')
+        url = reverse('profile')
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, template_name='account/profile.html')
+
+    def test_user_update_successful(self):
+        """Profile submission should result in updated database values"""
+        # simulated data for post submission
+        data = self.account
+        # remove unnecessary inputs (i.e. these are not accessible on form)
+        del(data['username'], data['email'], data['password'])
+        # change the field values
+        data['first_name'] = 'Sir Test'
+        data['post_code'] = 'New Postcode'
+
+        # account login
+        self.client.login(email='test_user@test.com',
+                          password='really_tough_password1!')
+
+        # submit form to update profile with new data
+        url = reverse('profile')
+        response = self.client.post(url, data, follow=True)
+
+        # perform tests
+        self.assertContains(response, 'Your profile has been updated')
+
+        # check that the user object has been updated
+        user = get_user_model().objects.get(email='test_user@test.com')
+
+        self.assertEquals(user.first_name, data['first_name'])
+        self.assertEquals(user.post_code, data['post_code'])
