@@ -1,0 +1,12 @@
+.checked {
+    color: orange;
+}
+
+.product-price {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.card {
+    min-width: 100%;
+}
