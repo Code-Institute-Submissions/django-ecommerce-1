@@ -11,6 +11,7 @@ psycopg2-binary = "*"
 flake8 = "*"
 django-crispy-forms = "*"
 django-allauth = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.7"
