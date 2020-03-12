@@ -1,10 +1,9 @@
 from django.views.generic.edit import UpdateView
-from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 
 
-from .forms import CustomUserCreationForm, ProfileForm
+from .forms import ProfileForm
 
 # Create your views here.
 
@@ -24,5 +23,6 @@ class ProfilePageView(LoginRequiredMixin, UpdateView):
 
     def form_invalid(self, form):
         messages.error(
-            self.request, 'There was a problem with the data you inputted - please see the error messages below.')
+            self.request, 'There was a problem with the data you inputted - '
+            'please see the error messages below.')
         return super().form_invalid(form)

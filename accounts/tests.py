@@ -1,5 +1,5 @@
 from django.test import TestCase
-from django.urls import reverse, resolve
+from django.urls import reverse
 from django.contrib.auth import get_user_model
 
 
@@ -88,8 +88,9 @@ class ProfilePageTests(TestCase):
             'date_of_birth': '1981-03-01'
         }
 
+        # create user account
         user = get_user_model().objects.create_user(**self.account)
-        self.client.login(username='test_user')
+        self.client.login(username=user.username)
 
     def test_page_not_accessible_by_public(self):
         """The page should only be accessible when the user is logged in"""
