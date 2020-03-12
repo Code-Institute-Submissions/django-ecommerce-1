@@ -33,23 +33,11 @@
     </div>
     <div class="col-12 col-md-9 col-lg-10">
         <div class="row">
-            {% if object_list %}
-            {% for product in object_list %}
-            <!-- <div class="col-12 col-3">
-                <img src="{{ product.image.url }}" alt="Image of product" class="img-fluid img-thumbnail"><br>
-                {{ product.title }}<br>
-                <strong>{{ product.price }}</strong><br>
-                Rating:
-                <span>
-                    <i class="fas fa-star checked" aria-hidden="true"></i>
-                    <i class="fas fa-star checked" aria-hidden="true"></i>
-                    <i class="fas fa-star checked" aria-hidden="true"></i>
-                    <i class="fas fa-star checked" aria-hidden="true"></i>
-                    <i class="fas fa-star" aria-hidden="true"></i>
-                </span>
-            </div> -->
+            {% if product_list %}
+            {% for product in product_list %}
+            {% if product.is_live %}
             <div class="col-12 col-md-6 col-lg-4 mb-3">
-                <div class="card">
+                <div class="card product-list-item">
                     <img class="card-img-top" src="{{ product.image.url }}" alt="Product image">
                     <div class="card-body">
                         <h5 class="card-title">{{ product.title }}</h5>
@@ -65,7 +53,47 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
             {% endfor %}
+            {# pagination section #}
+            {% if is_paginated %}
+            <div class="col-12">
+                {% if page_obj.has_other_pages %}
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">&laquo;</span>
+                    </li>
+                    {% endif %}
+                    {% for page in paginator.page_range %}
+                    {% if page_obj.number == page %}
+                    <li class="page-item active">
+                        <a class="page-link"> {{ page }}</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item">
+                        <a href="?page={{ page }}" class="page-link"> {{ page }}</a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link">&raquo;</a>
+                    </li>
+                    {% endif %}
+                </ul>
+                {% endif %}
+            </div>
+            {% endif %}
+            {# end pagination section #}
             {% else %}
             <p>There are currently no products to display. Please check back later.</p>
             {% endif %}

@@ -2,11 +2,33 @@
     color: orange;
 }
 
+/* product listing page */
+
 .product-price {
     font-size: 22px;
     font-weight: bold;
 }
 
-.card {
+.product-list-item .card {
     min-width: 100%;
+}
+
+.product-list-item:hover {
+    cursor: pointer;
+}
+
+/* product detail page */
+.product-detail div {
+    margin-bottom: 10px;
+}
+
+.product-detail-rating {
+    font-size: 30px;
+    /* text-align: center; */
+}
+
+.product-price {
+    font-size: 30px;
+    color: #0092D6;
+    font-weight: bold;
 }

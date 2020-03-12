@@ -10,6 +10,7 @@ class Product(models.Model):
     stock = models.PositiveIntegerField(default=10)
     description = models.TextField()
     image = models.ImageField()
+    is_live = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title

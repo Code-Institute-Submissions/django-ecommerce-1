@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %} | {{ product.title }}{% endblock %}
+{% block content %}
+<h1>{{ product.title }}</h1>
+<div class="row">
+    <div class="col-12 col-md-6">
+        <img class="card-img-top" src="{{ product.image.url }}" alt="Product image">
+    </div>
+
+    <div class="col-12 col-md-6">
+
+        <div class="row product-detail">
+
+            <div class="d-none d-md-inline col-md-4 order-md-1">Rating</div>
+            <div class="col-12 col-md-8 order-md-1 product-detail-rating text-center text-md-left">
+                <!-- update with loop when reviews code is added  -->
+                <i class="fas fa-star checked" aria-hidden="true"></i>
+                <i class="fas fa-star checked" aria-hidden="true"></i>
+                <i class="fas fa-star checked" aria-hidden="true"></i>
+                <i class="fas fa-star checked" aria-hidden="true"></i>
+                <i class="fas fa-star" aria-hidden="true"></i>
+            </div>
+
+            <div class="col-4 order-md-0">Price</div>
+            <div class="col-8 order-md-0 product-price">€{{ product.price }}</div>
+
+            <div class="col-4 order-md-2">Quantity</div>
+            <div class="col-8 order-md-2">up/down</div>
+
+            <div class="offset-4 col-6 order-md-3">
+                <a href="#" class="btn btn-success">Add to Basket</a>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="col-12 mt-3 text-center">
+        <h2>Product Description</h2>
+        <p>{{ product.description }}</p>
+    </div>
+
+</div>
+{% endblock %}
