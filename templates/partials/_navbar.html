@@ -7,6 +7,9 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav d-md-flex-row ml-md-auto d-md-flex order-md-2">
+            <li class="nav-item">
+                <a href="{% url 'product_list' %}" class="nav-link">Products</a>
+            </li>
             {% if user.is_authenticated %}
             <li class="nav-item mr-md-3">
                 <span class="navbar-text"><strong>Welcome {{ user.username|title }}</strong></span>
