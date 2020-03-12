@@ -12,7 +12,7 @@
             </li>
             {% if user.is_authenticated %}
             <li class="nav-item mr-md-3">
-                <span class="navbar-text"><strong>Welcome {{ user.username|title }}</strong></span>
+                <span class="navbar-text"><strong>Welcome {{ user.first_name|title }}</strong></span>
             </li>
             <li class="nav-item">
                 <a href="{% url 'profile' %}" class="nav-link">Profile</a>
