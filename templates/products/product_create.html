@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %} | Create New Product{% endblock %}
+{% block content %}
+<h1>Product Details</h1>
+<div class="row">
+    <div class="col-12">
+        <form method="POST" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input type="submit" value="Create" class="btn btn-success">
+        </form>
+    </div>
+</div>
+{% endblock %}

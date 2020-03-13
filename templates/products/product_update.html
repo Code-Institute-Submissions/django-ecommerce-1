@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %} | Update Product Details{% endblock %}
+{% block content %}
+<h1>Update Product Details</h1>
+<div class="row">
+    <div class="col-12">
+        <form method="POST" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input type="submit" value="Update" class="btn btn-success">
+        </form>
+    </div>
+</div>
+{% endblock %}
