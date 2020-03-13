@@ -1,4 +1,4 @@
-from django.test import TestCase, Client
+from django.test import TestCase
 from django.urls import reverse
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -81,3 +81,13 @@ class ProductTests(TestCase):
         # check product detail page is unsuccessful (i.e. doesnt show)
         detail_response = self.client.get(product_two.get_absolute_url())
         self.assertNotEqual(detail_response, 200)
+
+    def test_list_view_template(self):
+        """Check that the correct template is being used"""
+        response = self.client.get(self.list_url)
+        self.assertTemplateUsed(response, 'products/product_list.html')
+
+    def test_detail_view_template(self):
+        """Check that the correct template is being used"""
+        response = self.client.get(self.detail_url)
+        self.assertTemplateUsed(response, 'products/product_detail.html')
