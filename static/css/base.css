@@ -32,3 +32,37 @@
     color: #0092D6;
     font-weight: bold;
 }
+
+/* profile */
+#profile-links {
+    float: right;
+}
+
+
+/* change email */
+.profileEmail {
+    margin: 0 10px 0 10px;
+}
+
+.ctrlHolder,
+.buttonHolder {
+    padding-left: 10px;
+}
+
+.buttonHolder {
+    margin-top: 20px;
+}
+
+.email_list {
+    margin-left: 10px;
+    padding: 10px 0 10px 0;
+}
+
+span.unverified,
+span.verified {
+    font-weight: bold;
+}
+
+.add_email {
+    margin-top: 20px;
+}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %} | Update Profile{% endblock title %}
+{% block content %}
+<h1>Profile
+    <section id="profile-links" class="text-right">
+        <a href="{% url 'account_profile' %}"
+            class="btn btn-outline-primary {% if 'profile' in request.path %} active {% endif %}">Update
+            Personal
+            Details</a>
+        <a href="{% url 'account_email' %}"
+            class="btn btn-outline-primary {% if 'email' in request.path %} active {% endif %}">Change Email</a>
+        <a href="{% url 'account_set_password' %}"
+            class="btn btn-outline-primary {% if 'password' in request.path %} active {% endif %}">Change
+            Password</a>
+    </section>
+</h1>
+<hr>
+
+{% block profile_content %}
+{% endblock profile_content %}
+
+{% block extra_body %}
+{% endblock extra_body %}
+
+{% endblock content %}
