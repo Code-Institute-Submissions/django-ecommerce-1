@@ -6,7 +6,7 @@ from django.urls import reverse
 from crispy_forms.bootstrap import Field
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Div, Fieldset, Layout
-from allauth.account.forms import LoginForm
+from allauth.account.forms import LoginForm, SignupForm
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -25,7 +25,7 @@ class CustomUserChangeForm(UserChangeForm):
         fields = '__all__'
 
 
-class CustomSignupForm(forms.Form):
+class CustomSignupForm(SignupForm):
     """Override the default allauth signup form"""
     first_name = forms.CharField(max_length=50)
     last_name = forms.CharField(max_length=50)
@@ -60,7 +60,8 @@ class CustomSignupForm(forms.Form):
                      Div(
                          Div('first_name', css_class='col-12 col-sm-6 '
                              'col-md-4'),
-                         Div('last_name', css_class='col-12 col-sm-6 col-md-4'),
+                         Div('last_name', css_class='col-12 col-sm-6 '
+                             'col-md-4'),
                          Div('date_of_birth', css_class='col-12 col-md-4'),
                          css_class='row')
                      ),
@@ -104,7 +105,8 @@ class ProfileForm(forms.ModelForm):
                                'col-md-4'),
                          Field('last_name',
                                wrapper_class='col-12 col-sm-6 col-md-4'),
-                         Field('date_of_birth', wrapper_class='col-12 col-md-4'),
+                         Field('date_of_birth', wrapper_class='col-12 '
+                               'col-md-4'),
                          css_class='row')
                      ),
             Fieldset('Address',
@@ -135,11 +137,13 @@ class CustomLoginForm(LoginForm):
             Fieldset('Login Details',
                      Div(
                          Field(
-                             'login', wrapper_class='col-12 col-sm-9 col-md-6 col-lg-4'),
+                             'login', wrapper_class='col-12 col-sm-9 col-md-6'
+                             ' col-lg-4'),
                          css_class='row'),
                      Div(
                          Field(
-                             'password', wrapper_class='col-12 col-sm-9 col-md-6 col-lg-4'),
+                             'password', wrapper_class='col-12 col-sm-9 '
+                             'col-md-6 col-lg-4'),
                          css_class='row'),
                      )
         )
