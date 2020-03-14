@@ -72,7 +72,7 @@ class ProfilePageTests(TestCase):
     """User profile page functionality testing"""
 
     def setUp(self):
-        url = reverse('profile')
+        url = reverse('account_profile')
         self.public_response = self.client.get(url)
 
         self.account = {
@@ -104,7 +104,7 @@ class ProfilePageTests(TestCase):
         """The page should be accessible when the user is logged in"""
         self.client.login(email='test_user@test.com',
                           password='really_tough_password1!')
-        url = reverse('profile')
+        url = reverse('account_profile')
         response = self.client.get(url)
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, template_name='account/profile.html')
@@ -124,7 +124,7 @@ class ProfilePageTests(TestCase):
                           password='really_tough_password1!')
 
         # submit form to update profile with new data
-        url = reverse('profile')
+        url = reverse('account_profile')
         response = self.client.post(url, data, follow=True)
 
         # perform tests
