@@ -15,4 +15,4 @@ class CustomUser(AbstractUser):
         return self.email
 
     def get_absolute_url(self):
-        return reverse('profile')
+        return reverse('account_profile')

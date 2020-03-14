@@ -7,25 +7,32 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav d-md-flex-row ml-md-auto d-md-flex order-md-2">
-            <li class="nav-item">
-                <a href="{% url 'product_list' %}" class="nav-link">Products</a>
-            </li>
             {% if user.is_authenticated %}
             <li class="nav-item mr-md-3">
                 <span class="navbar-text"><strong>Welcome {{ user.first_name|title }}</strong></span>
             </li>
+            {% endif %}
             <li class="nav-item">
-                <a href="{% url 'profile' %}" class="nav-link">Profile</a>
+                <a href="{% url 'product_list' %}"
+                    class="nav-link {% if 'products' in request.path %}active{% endif %}">Products</a>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a href="{% url 'account_profile' %}"
+                    class="nav-link {% if 'accounts' in request.path and 'logout' not in request.path %}active{% endif %}">Profile</a>
             </li>
             <li class="nav-item">
-                <a href="{% url 'account_logout' %}" class="nav-link">Logout</a>
+                <a href="{% url 'account_logout' %}"
+                    class="nav-link {% if 'logout' in request.path %}active{% endif %}">Logout</a>
             </li>
             {% else %}
             <li class="nav-item">
-                <a href="{% url 'account_signup' %}" class="nav-link">Register</a>
+                <a href="{% url 'account_signup' %}"
+                    class="nav-link {% if 'signup' in request.path %}active{% endif %}">Register</a>
             </li>
             <li class="nav-item">
-                <a href="{% url 'account_login' %}" class="nav-link">Login</a>
+                <a href="{% url 'account_login' %}"
+                    class="nav-link {% if 'login' in request.path %}active{% endif %}">Login</a>
             </li>
             {% endif %}
         </ul>
