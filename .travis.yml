@@ -11,4 +11,5 @@ before_script:
     - pip install docker-compose
 
 script:
-    - docker-compose run web python manage.py test --settings=settings.test && flake8
+    - docker-compose run web python manage.py test --settings=settings.test 
+    - docker-compose run web flake8
