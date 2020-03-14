@@ -10,6 +10,8 @@ class ProductListView(ListView):
     """List products from database with pagination"""
     model = Product
     context_object_name = 'product_list'
+    # to avoid inconsistent pagination results order by id
+    queryset = Product.objects.get_queryset().order_by('id')
     template_name = 'products/product_list.html'
     paginate_by = 5
 
