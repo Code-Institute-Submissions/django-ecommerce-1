@@ -12,7 +12,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
     stock = models.PositiveIntegerField(default=10)
     description = models.TextField()
-    image = models.ImageField()
+    image = models.ImageField(null=True)
     is_live = models.BooleanField(default=True)
 
     def __str__(self):

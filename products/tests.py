@@ -20,8 +20,8 @@ class ProductTests(TestCase):
             'description': 'Doggie Treats',
             # simulate the content required for imagefield
             'image': SimpleUploadedFile(
-                name='test.jpg',
-                content=open(settings.MEDIA_ROOT +
+                name='image.jpg',
+                content=open(settings.BASE_DIR +
                              '/test/image.jpg', 'rb').read(),
                 content_type='image/jpeg'
             ),
