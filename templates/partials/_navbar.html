@@ -36,8 +36,9 @@
             </li>
             {% endif %}
         </ul>
-        <form class="form-inline order-md-1">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <form class="form-inline order-md-1" action="{% url 'product_search' %}" method="GET">
+            <input class="form-control mr-sm-2" name="keywords" type="search" {% if 'search' in request.path %}
+                value="{{ search_keywords }}" {% else %} placeholder="Search" {% endif %} aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>
