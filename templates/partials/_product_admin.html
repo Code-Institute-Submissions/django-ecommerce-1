@@ -1,0 +1,15 @@
+{% if user.is_staff %}
+<div class="dropdown">
+    <button class="btn {% if product.id %}btn-link {% else %}btn-secondary {% endif %} btn-sm dropdown-toggle"
+        type="button" id="productAdminMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin
+    </button>
+    <div class="dropdown-menu" aria-labelledby="productAdminMenu">
+        {% if product.id %}
+        <a class="dropdown-item" href="{% url 'product_update' pk=product.id %}">Update</a>
+        <a class="dropdown-item" href="{% url 'product_delete' pk=product.id %}">Delete</a>
+        {% else %}
+        <a class="dropdown-item" href="{% url 'product_create' %}">New Product</a>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
