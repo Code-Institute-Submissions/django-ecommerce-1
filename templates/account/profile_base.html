@@ -5,17 +5,17 @@
 <h1>Profile
     <section id="profile-links" class="text-right">
         <a href="{% url 'account_profile' %}"
-            class="btn btn-outline-primary {% if 'profile' in request.path %} active {% endif %}">Update
+            class="btn btn-sm btn-outline-dark {% if 'profile' in request.path %} active {% endif %}">Update
             Personal
             Details</a>
         <a href="{% url 'account_email' %}"
-            class="btn btn-outline-primary {% if 'email' in request.path %} active {% endif %}">Change Email</a>
+            class="btn btn-sm btn-outline-dark {% if 'email' in request.path %} active {% endif %}">Change Email</a>
         <a href="{% url 'account_set_password' %}"
-            class="btn btn-outline-primary {% if 'password' in request.path %} active {% endif %}">Change
+            class="btn btn-sm btn-outline-dark {% if 'password' in request.path %} active {% endif %}">Change
             Password</a>
     </section>
 </h1>
-<hr>
+<!-- <hr> -->
 
 {% block profile_content %}
 {% endblock profile_content %}
