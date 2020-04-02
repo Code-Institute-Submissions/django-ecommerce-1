@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth import get_user_model
 
 
 class Product(models.Model):
@@ -22,3 +23,23 @@ class Product(models.Model):
     def get_absolute_url(self):
         """define default url for an instance of product model"""
         return reverse('product_detail', args=[str(self.id)])
+
+
+class Review(models.Model):
+    """Users can leave product reviews"""
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name='reviews')
+    RATING_CHOICES = (
+        (1, '1'),
+        (2, '2'),
+        (3, '3'),
+        (4, '4'),
+        (5, '5'),
+    )
+    rating = models.IntegerField(choices=RATING_CHOICES, default=3)
+    review = models.TextField()
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.review

@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load humanize %}
+{% load myproduct_tags %}
 
 {% block title %} | {{ product.title }}{% endblock %}
 {% block content %}
@@ -44,6 +46,28 @@
         <h2>Product Description</h2>
         <p>{{ product.description }}</p>
     </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <h2 class="mb-3">Reviews</h2>
+        {% for review in product.reviews.all %}
+        <div class="row">
+            <div class="col-3">
+                {% autoescape off %}
+                {{ review.rating|rating }}
+                {% endautoescape %}
+            </div>
+            <div class="col-4"><strong>{{ review.user }}</strong></div>
+            <div class="col-5"><strong>{{ review.date|naturaltime }}</strong></div>
 
+            <div class="col-12">{{ review.review }}</div>
+            <div class="offset-2 col-8">
+                <hr>
+            </div>
+        </div>
+        {% empty %}
+        <p>This product does not yet have any reviews. You can be the first!</p>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}
