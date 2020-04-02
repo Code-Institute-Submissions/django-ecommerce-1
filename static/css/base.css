@@ -1,8 +1,16 @@
 .checked {
-    color: orange;
+    color: #ffb347;
+}
+
+.unchecked {
+    color: #cfcfc4;
 }
 
 /* product listing page */
+.card-img-top {
+    height: 150px;
+    background-size: cover;
+}
 
 .product-price {
     font-size: 22px;
@@ -24,13 +32,20 @@
 
 .product-detail-rating {
     font-size: 30px;
-    /* text-align: center; */
 }
 
 .product-price {
     font-size: 30px;
     color: #0092D6;
     font-weight: bold;
+}
+
+.product-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    min-width: 100px;
 }
 
 /* profile */

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load myproduct_tags %}
 
 {% block title %} | Products{% endblock %}
 {% block content %}
@@ -49,11 +50,9 @@
                         <h5 class="card-title">{{ product.title }}</h5>
                         <p class="product-price">€{{ product.price }}</p>
                         <p class="product-rating">
-                            <i class="fas fa-star checked" aria-hidden="true"></i>
-                            <i class="fas fa-star checked" aria-hidden="true"></i>
-                            <i class="fas fa-star checked" aria-hidden="true"></i>
-                            <i class="fas fa-star checked" aria-hidden="true"></i>
-                            <i class="fas fa-star" aria-hidden="true"></i>
+                            {% autoescape off %}
+                            {{ product.rating|star_generator }}
+                            {% endautoescape %}
                         </p>
                         <a href="" class="btn btn-success">Add to Basket</a>
                         <a href="{{ product.get_absolute_url }}" class="btn btn-primary">View</a>

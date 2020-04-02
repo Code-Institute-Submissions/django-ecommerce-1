@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load humanize %}
 {% load myproduct_tags %}
+{% load crispy_forms_tags %}
 
 {% block title %} | {{ product.title }}{% endblock %}
 {% block content %}
@@ -12,19 +13,16 @@
         {% include 'partials/_product_admin.html' %}
     </div>
     <div class="col-12 col-md-6">
-        <img class="card-img-top" src="{{ product.image.url }}" alt="Product image">
+        <img class="product-image" src="{{ product.image.url }}" alt="Product image">
     </div>
 
     <div class="col-12 col-md-6">
         <div class="row product-detail">
             <div class="d-none d-md-inline col-md-4 order-md-1">Rating</div>
             <div class="col-12 col-md-8 order-md-1 product-detail-rating text-center text-md-left">
-                <!-- update with loop when reviews code is added  -->
-                <i class="fas fa-star checked" aria-hidden="true"></i>
-                <i class="fas fa-star checked" aria-hidden="true"></i>
-                <i class="fas fa-star checked" aria-hidden="true"></i>
-                <i class="fas fa-star checked" aria-hidden="true"></i>
-                <i class="fas fa-star" aria-hidden="true"></i>
+                {% autoescape off %}
+                {{ product_rating|star_generator }}
+                {% endautoescape %}
             </div>
 
             <div class="col-4 order-md-0">Brand</div>
@@ -42,7 +40,7 @@
         </div>
     </div>
     <hr>
-    <div class="col-12 mt-3 text-center">
+    <div class="col-12 mt-3 mb-4 text-center">
         <h2>Product Description</h2>
         <p>{{ product.description }}</p>
     </div>
@@ -54,11 +52,11 @@
         <div class="row">
             <div class="col-3">
                 {% autoescape off %}
-                {{ review.rating|rating }}
+                {{ review.rating|star_generator }}
                 {% endautoescape %}
             </div>
-            <div class="col-4"><strong>{{ review.user }}</strong></div>
-            <div class="col-5"><strong>{{ review.date|naturaltime }}</strong></div>
+            <div class="col-4">{{ review.user }}</div>
+            <div class="col-5">{{ review.date|naturaltime }}</div>
 
             <div class="col-12">{{ review.review }}</div>
             <div class="offset-2 col-8">
@@ -68,6 +66,19 @@
         {% empty %}
         <p>This product does not yet have any reviews. You can be the first!</p>
         {% endfor %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="offset-1 col-9">
+        {% if user.is_authenticated %}
+        {% if display_form is True %}
+        {# only display form if user has not already posted a comment #}
+        {% crispy form %}
+        {% else %}
+        <p>You have already submitted a review for this product.</p>
+        {% endif %}
+        {% endif %}
     </div>
 </div>
 {% endblock %}
