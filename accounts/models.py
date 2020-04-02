@@ -12,7 +12,7 @@ class CustomUser(AbstractUser):
     date_of_birth = models.DateField(null=True)
 
     def __str__(self):
-        return self.email
+        return f'{self.first_name} {self.last_name[:1]}'
 
     def get_absolute_url(self):
         return reverse('account_profile')
