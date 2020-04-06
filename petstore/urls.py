@@ -12,4 +12,7 @@ urlpatterns = [
     # include customer account urls in addition to django urls
     path('accounts/', include('accounts.urls')),
     path('products/', include('products.urls')),
+    path('basket/', include('basket.urls')),
+    # path('checkout/', include('checkout.urls')),
+    # path('orders/', include('orders.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
