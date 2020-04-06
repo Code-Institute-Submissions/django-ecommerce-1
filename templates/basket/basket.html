@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} | Shopping Basket{% endblock title %}
+{% block content %}
+<h1>Shopping Basket</h1>
+<p>There are {{ request.basket.count }} item(s) in your basket.</p>
+
+{% endblock content %}
