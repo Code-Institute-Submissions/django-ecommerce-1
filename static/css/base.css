@@ -6,6 +6,12 @@
     color: #cfcfc4;
 }
 
+span.cart-badge {
+    position: relative;
+    top: -20px;
+    left: -5px;
+}
+
 /* product listing page */
 .card-img-top {
     height: 150px;
