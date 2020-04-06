@@ -35,7 +35,7 @@
             <div class="col-8 order-md-2">up/down</div>
 
             <div class="offset-4 col-6 order-md-3">
-                <a href="#" class="btn btn-success">Add to Basket</a>
+                <a href="{% url 'add_to_basket' product=product.id %}" class="btn btn-success">Add to Basket</a>
             </div>
         </div>
     </div>

@@ -54,7 +54,7 @@
                             {{ product.rating|star_generator }}
                             {% endautoescape %}
                         </p>
-                        <a href="" class="btn btn-success">Add to Basket</a>
+                        <a href="{% url 'add_to_basket' product=product.id %}" class="btn btn-success">Add to Basket</a>
                         <a href="{{ product.get_absolute_url }}" class="btn btn-primary">View</a>
 
                         <div class="float-right mt-2">
