@@ -41,12 +41,14 @@ class ProductDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # check to see if user has already posted review for product
-        user_has_reviewed = Review.objects.filter(
-            product=self.object).filter(user=self.request.user)
-        # if no object was returned then user has not submitted a review
-        if not user_has_reviewed:
-            context['display_form'] = True
+        # make sure the user is logged in first
+        if self.request.user.is_authenticated:
+            # check to see if user has already posted review for product
+            user_has_reviewed = Review.objects.filter(
+                product=self.object).filter(user=self.request.user)
+            # if no object was returned then user has not submitted a review
+            if not user_has_reviewed:
+                context['display_form'] = True
 
         # passthrough form for rendering in template
         context['form'] = ReviewForm()
@@ -119,6 +121,8 @@ class ProductSearchResultsView(ListView):
     """Return products that match search query"""
     model = Product
     context_object_name = 'search_results'
+    queryset = Product.objects.get_queryset().annotate(
+        rating=Avg('reviews__rating')).order_by('id')
     # to avoid inconsistent pagination results order by id
     template_name = 'products/product_search_results.html'
     paginate_by = 6
@@ -140,6 +144,7 @@ class ProductSearchResultsView(ListView):
                 Q(category__icontains=keywords) |
                 Q(description__icontains=keywords)
             ).order_by('id')
+
         else:
             return ''
 
