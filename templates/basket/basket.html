@@ -1,9 +1,77 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load humanize %}
 
 {% block title %} | Shopping Basket{% endblock title %}
 {% block content %}
 <h1>Shopping Basket</h1>
+{% if request.basket.count > 0 %}
 <p>There are {{ request.basket.count }} item(s) in your basket.</p>
+
+{% spaceless %}
+<div class="table-responsive">
+    <form method="POST">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        {{ form.non_field_errors }}
+        <table class="table basket">
+            <thead>
+                <tr>
+                    <th scope="col">Product</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Remove?</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for form in formset %}
+
+                {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+                {% endfor %}
+
+                <tr>
+                    <td>
+                        <img src=" {{ form.instance.product.image.url }}" alt="Product image">
+                        {{ form.instance.product.title }}
+                    </td>
+                    <td>
+                        {{ form.quantity }}
+                        {% if form.quantity.errors %}
+                        <br>
+                        <small class="text-danger">{{ form.quantity.errors|striptags }}</small>
+                        {% endif %}
+                    </td>
+                    <td class="item-price">€{{ form.instance.product.price|intcomma }}</td>
+                    <td class="item-total">€{{ form.instance.subtotal }}</td>
+                    {% if formset.can_delete %}
+                    <td>{{ form.DELETE }}</td>
+                    {% endif %}
+                </tr>
+
+                {% endfor %}
+
+                <tr class="total">
+                    <td></td>
+                    <td><button class="btn btn-sm btn-primary my-2 my-sm-0" type="submit">Update</button></td>
+                    <td>Total</td>
+                    <td class="item-total">€{{ request.basket.total|intcomma}}</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="float-right">
+
+            <a href="" class="ml-2 btn btn-success">Checkout</a>
+        </div>
+    </form>
+</div>
+{% endspaceless %}
+
+{% else %}
+<p>You do not have any items in your basket. Click <a href="{% url 'product_list' %}">here</a> to browse our products.
+</p>
+{% endif %}
 
 {% endblock content %}
