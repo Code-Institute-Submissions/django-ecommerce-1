@@ -714,7 +714,7 @@ class ProductSearchResultsView(TestCase):
         response = self.client.get(self.reverse_url + search_terms)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(response.url.startswith('/products/search/'))
+        self.assertEqual(response.request['PATH_INFO'], '/products/search/')
         self.assertContains(response, '<div class="card product-list-item">')
 
     def test_view_does_not_show_products_non_live_products(self):
