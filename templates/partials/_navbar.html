@@ -35,12 +35,10 @@
                     class="nav-link {% if 'login' in request.path %}active{% endif %}">Login</a>
             </li>
             {% endif %}
-            {% if request.basket %}
             <li class="nav-item ml-3">
                 <a href="{% url 'basket' %}"><i class="fas fa-shopping-basket fa-2x text-dark"></i></a>
                 <span class="badge badge-pill badge-warning cart-badge">{{ request.basket.count }}</span>
             </li>
-            {% endif %}
         </ul>
         <form class="form-inline order-md-1" action="{% url 'product_search' %}" method="GET">
             <input class="form-control mr-sm-2" name="keywords" type="search" {% if 'search' in request.path %}
