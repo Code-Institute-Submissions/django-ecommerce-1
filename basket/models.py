@@ -21,12 +21,35 @@ class Basket(models.Model):
     created_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.created_date} - {self.id} - {self.user.email}'
+        return f'Created: {self.created_date} - Status: '
+        f'{self.BASKET_STATUS[self.status-1][1]} - User: {self.user}'
 
     def count(self):
         """Return total number of items in basket"""
-        return self.basketitem_set.aggregate(
-            total=models.Sum('quantity'))['total']
+        count = self.basketitem_set.aggregate(
+            count=models.Sum('quantity'))['count']
+
+        if count is None:
+            count = 0
+
+        return count
+
+    def total(self):
+        """Return total price for the basket"""
+        # get tuple which will be used to query product object for price
+        products = self.basketitem_set.all().values_list('product_id',
+                                                         'quantity')
+        total = 0
+
+        if products:
+            for product in products:
+                product_id = product[0]
+                quantity = product[1]
+                price = Product.objects.get(id=product_id).price
+
+                total += quantity * price
+
+        return total
 
 
 class BasketItem(models.Model):
@@ -38,5 +61,15 @@ class BasketItem(models.Model):
     date_added = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.basket.user.email} - basket_id: {self.basket.id} - \
-            product: {self.product.title} - quantity: {self.quantity}'
+        return f'Item Total: {self.quantity * self.product.price} (Quantity: '
+        f'{self.quantity}, Price: {self.product.price}) - '
+        f'Product: {self.product.title} '
+
+    def subtotal(self):
+        """Return per item total's"""
+        total = self.quantity * self.product.price
+
+        if total is None:
+            total = 0
+
+        return total

@@ -2,39 +2,62 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.http import HttpResponse
 from django.contrib import messages
+from django.db import transaction
+from django.dispatch import receiver
+from django.contrib.auth.signals import user_logged_in
 
 from .models import Basket, BasketItem
 from products.models import Product
-
-# Create your views here.
+from .forms import BasketFormSet
 
 
 def view_basket(request):
+    if request.method == 'POST':
+        formset = BasketFormSet(request.POST, instance=request.basket)
 
-    if request.basket:
-        message = 'basket exists'
+        if formset.is_valid():
+            formset.save()
+            messages.success(request, 'Your basket has been updated.')
+
+            formset = BasketFormSet(instance=request.basket)
+        else:
+            messages.error(
+                request, 'Your basket could not be updated, please review any error messages below.')
+
     else:
-        message = 'no basket'
+        if hasattr(request, 'basket'):
+            formset = BasketFormSet(instance=request.basket)
+        else:
+            formset = None
 
-    context = {'message': message}
+    context = {'formset': formset}
 
     return render(request, 'basket/basket.html', context)
 
 
-# @transaction.atomic
-def add_to_basket(request, product):
-    product = get_object_or_404(Product, id=product)
-    basket = request.basket
+@transaction.atomic
+def add_to_basket(request, product_id):
+    basket = ''
+    product = get_object_or_404(Product, id=product_id)
 
-    if not basket:
+    if hasattr(request, 'basket'):
+        # basket already exists
+        basket = request.basket
+    else:
+        # this is a new basket
+
+        if request.user.is_authenticated:
+            user = request.user
+        else:
+            user = None
+
         # create new basket and store in session var for accessing
-        basket = Basket.objects.create(user=request.user)
+        basket = Basket.objects.create(user=user)
         request.session['basket_id'] = basket.id
 
-    # basket exists, add or update basket item
+    # basket exists (otherwise raise 404), add or update basket item
     basket_item, new = BasketItem.objects.get_or_create(
         basket=basket, product=product)
-    print(request.basket)
 
     if new:
         # new product in basket
@@ -57,9 +80,69 @@ def add_to_basket(request, product):
     return redirect(reverse('basket'))
 
 
-def remove_from_basket(request, product):
-    return HttpResponse('<h1>Remove from Basket</h1>')
+@receiver(user_logged_in)
+def get_basket(sender, user, request, **kwargs):
+    """When user logs in, retrieve basket and merge with existing"""
 
+    try:
+        # does the user have a basket already stored in db
+        existing_basket = Basket.objects.get(
+            user=user, status=Basket.IN_PROGRESS)
 
-def update_basket(request):
-    return HttpResponse('<h1>Update Basket</h1>')
+        # check to see if added any items to basket before logging in
+        if hasattr(request, 'basket'):
+            new_items_basket = request.basket
+            new_items = []
+
+            # loop through new items and store as list of dictionaries
+            for item in new_items_basket.basketitem_set.all():
+                new_items += [{
+                    'product': item.product,
+                    'quantity': item.quantity
+                }]
+
+            # check list against existing basket, add new, update existing
+            for item in new_items:
+                basket_item, new = BasketItem.objects.get_or_create(
+                    basket=existing_basket, product=item['product'])
+
+                if new:
+                    quantity = item['quantity']
+                else:
+                    # add existing quantity to new basket quantity
+                    quantity = basket_item.quantity + item['quantity']
+
+                # check quantity does not exceed maximum permissable amount
+                if quantity > 5:
+                    quantity = 5
+                    messages.warning(
+                        request, f"Product '{item['product']}' exceeded the \
+                            maximum quantity, quantity set to maximum \
+                                permittable amount.")
+                # set quantity and save object
+                basket_item.quantity = quantity
+                basket_item.save()
+
+            # provide feedback to user
+            messages.info(
+                request, "Your new items have been merged with your existing \
+                    basket.")
+            # remove anonymous basket, given contents merged into user basket
+            new_items_basket.delete()
+
+        # update session variable to enable middleware to set request.basket
+        request.session['basket_id'] = existing_basket.id
+
+    except Basket.DoesNotExist:
+        # user account does not already have an 'in progress' basket
+        # check to see if user created a basket anonymously
+        # if so, attach it to the user's account
+        basket_id = request.session.get('basket_id', False)
+
+        if basket_id:
+            try:
+                basket = Basket.objects.get(
+                    id=request.session['basket_id'], user=None)
+                basket.update(user=user)
+            except Basket.DoesNotExist:
+                pass
