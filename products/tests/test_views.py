@@ -71,7 +71,7 @@ class ProductListViewTest(TestCase):
 
         response = self.client.get(self.reverse_url)
         self.assertTrue(response.status_code, 200)
-        self.assertTrue(response.context['is_paginated'] == True)
+        self.assertTrue(response.context['is_paginated'])
         self.assertContains(response, 'Products')
         self.assertNotContains(response, '€')
         self.assertNotContains(response, 'Add to basket')
@@ -83,7 +83,7 @@ class ProductListViewTest(TestCase):
 
         response = self.client.get(self.reverse_url)
         self.assertTrue(response.status_code, 200)
-        self.assertTrue(response.context['is_paginated'] == False)
+        self.assertTrue(response.context['is_paginated'] is False)
         self.assertContains(
             response, 'There are currently no products to display')
         self.assertContains(response, 'Products')
@@ -110,7 +110,7 @@ class ProductListViewTest(TestCase):
 
     def test_view_does_not_contain_admin_logged_in_no_permissions(self):
         """User does not have permissions, should not see admin options"""
-        account = self.client.force_login(self.user)
+        self.client.force_login(self.user)
         response = self.client.get(self.reverse_url)
         self.assertNotContains(response, 'admin')
         self.assertNotContains(response, 'New Product')
@@ -125,7 +125,7 @@ class ProductListViewTest(TestCase):
         permission3 = Permission.objects.get(name='Can delete product')
         # add permissions to user and login
         self.user.user_permissions.add(permission1, permission2, permission3)
-        account = self.client.force_login(self.user)
+        self.client.force_login(self.user)
 
         response = self.client.get(self.reverse_url)
         self.assertContains(response, 'Admin')
@@ -249,7 +249,7 @@ class ProductDetailView(TestCase):
 
     def test_view_does_not_contain_admin_logged_in_no_permissions(self):
         """User does not have permissions, should not see admin options"""
-        account = self.client.force_login(self.user)
+        self.client.force_login(self.user)
         response = self.client.get(self.reverse_url)
         self.assertNotContains(response, 'admin')
         self.assertNotContains(response, 'Update')
@@ -263,7 +263,7 @@ class ProductDetailView(TestCase):
         permission3 = Permission.objects.get(name='Can delete product')
         # add permissions to user and login
         self.user.user_permissions.add(permission1, permission2, permission3)
-        account = self.client.force_login(self.user)
+        self.client.force_login(self.user)
 
         response = self.client.get(self.reverse_url)
         self.assertContains(response, 'Admin')
@@ -364,22 +364,20 @@ class ProductReviewTest(TestCase):
         response = self.client.get(self.reverse_url)
         # form will only be displayed if 'display_form' is true
         self.assertTrue('display_form' in response.context)
-        self.assertTrue(response.context['display_form'] == True)
+        self.assertTrue(response.context['display_form'])
         self.assertContains(response, 'Add a product review')
 
-    def test_review_form_does_not_display_not_logged_in(self):
+    def test_review_form_does_not_display_user_logged_in(self):
         """When user is logged in and has already reviewed a product,
         review form should not display"""
         response = self.client.get(self.reverse_url)
 
         user = get_user_model().objects.create_user(
-            username=f'test_user@email.com',
+            username='test_user@email.com',
             password='pass123')
 
-        review = Review.objects.create(product=self.product,
-                                       rating=3,
-                                       review='This is a product review.',
-                                       user=user)
+        Review.objects.create(product=self.product, rating=3,
+                              review='This is a product review.', user=user)
 
         # user and user review created, now log-in to account and view product
         self.client.force_login(user=user)
@@ -692,7 +690,7 @@ class ProductSearchResultsView(TestCase):
             'another search term')
 
     def test_view_when_no_search_term(self):
-        """When no search keywords are passed, search view should return 
+        """When no search keywords are passed, search view should return
         message only"""
         search_terms = '?keywords='
         response = self.client.get(self.reverse_url + search_terms)
@@ -701,7 +699,7 @@ class ProductSearchResultsView(TestCase):
             'another search term')
 
     def test_view_search_term_does_not_match_any_products(self):
-        """When search keywords do not match any products, search view should 
+        """When search keywords do not match any products, search view should
         return message only"""
         search_terms = '?keywords=dogs'
         response = self.client.get(self.reverse_url + search_terms)
@@ -715,7 +713,9 @@ class ProductSearchResultsView(TestCase):
         search_terms = '?keywords=dog'
         response = self.client.get(self.reverse_url + search_terms)
 
-        # add test here
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.url.startswith('/products/search/'))
+        self.assertContains(response, '<div class="card product-list-item">')
 
     def test_view_does_not_show_products_non_live_products(self):
         """Search should not return products where is_live=False"""
@@ -737,7 +737,7 @@ class ProductSearchResultsView(TestCase):
         }
 
         # product2 is_live = False - should not be shown on website
-        product2 = Product.objects.create(**product2_details)
+        Product.objects.create(**product2_details)
         # search for the brand of both products - expecting one result
         search_terms = '?keywords=pawful+intentions'
         response = self.client.get(self.reverse_url + search_terms)
@@ -787,5 +787,5 @@ class ProductSearchResultsView(TestCase):
         response = self.client.get(self.reverse_url + search_terms)
 
         self.assertTrue('is_paginated' in response.context)
-        self.assertTrue(response.context['is_paginated'] == True)
+        self.assertTrue(response.context['is_paginated'])
         self.assertEqual(len(response.context['search_results']), 6)
