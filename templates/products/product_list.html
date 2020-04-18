@@ -1,37 +1,11 @@
 {% extends 'base.html' %}
-{% load myproduct_tags %}
 
 {% block title %} | Products{% endblock %}
 {% block content %}
 <h1>Products</h1>
 <div class="row">
-    <div class="productsFilterBox d-none d-md-block col-md-3 col-lg-2">
-        <span class="header">Filter by</span>
-        <h3>Price</h3>
-        <ul>
-            <li>0 - 9.99</li>
-            <li>10 - 19.99</li>
-            <li>20 - 49.99</li>
-            <li>50 - 249.99</li>
-            <li>250+</li>
-        </ul>
-        <h3>Category</h3>
-        <ul>
-            <li>0 - 9.99</li>
-            <li>10 - 19.99</li>
-            <li>20 - 49.99</li>
-            <li>50 - 249.99</li>
-            <li>250+</li>
-        </ul>
-        <h3>Rating</h3>
-        <ul>
-            <li>1*</li>
-            <li>2*</li>
-            <li>3*</li>
-            <li>4*</li>
-            <li>5*</li>
-        </ul>
-    </div>
+    {% include 'partials/_product_filters.html' %}
+
     <div class="col-12 col-md-9 col-lg-10">
         <div class="row">
             <div class="col-12">
@@ -43,65 +17,14 @@
             {% if product_list %}
             {% for product in product_list %}
             {% if product.is_live %}
-            <div class="col-12 col-md-6 col-lg-4 mb-3">
-                <div class="card product-list-item">
-                    <img class="card-img-top" src="{{ product.image.url }}" alt="Product image">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ product.title }}</h5>
-                        <p class="product-price">€{{ product.price }}</p>
-                        <p class="product-rating">
-                            {% autoescape off %}
-                            {{ product.rating|star_generator }}
-                            {% endautoescape %}
-                        </p>
-                        <a href="{% url 'add_to_basket' product=product.id %}" class="btn btn-success">Add to Basket</a>
-                        <a href="{{ product.get_absolute_url }}" class="btn btn-primary">View</a>
 
-                        <div class="float-right mt-2">
-                            {% include 'partials/_product_admin.html' %}
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% include 'partials/_product_listing.html' %}
+
             {% endif %}
             {% endfor %}
             {# pagination section #}
             {% if is_paginated %}
-            <div class="col-12">
-                {% if page_obj.has_other_pages %}
-                <ul class="pagination">
-                    {% if page_obj.has_previous %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
-                    </li>
-                    {% else %}
-                    <li class="page-item disabled">
-                        <span class="page-link">&laquo;</span>
-                    </li>
-                    {% endif %}
-                    {% for page in paginator.page_range %}
-                    {% if page_obj.number == page %}
-                    <li class="page-item active">
-                        <a class="page-link"> {{ page }}</a>
-                    </li>
-                    {% else %}
-                    <li class="page-item">
-                        <a href="?page={{ page }}" class="page-link"> {{ page }}</a>
-                    </li>
-                    {% endif %}
-                    {% endfor %}
-                    {% if page_obj.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
-                    </li>
-                    {% else %}
-                    <li class="page-item disabled">
-                        <a class="page-link">&raquo;</a>
-                    </li>
-                    {% endif %}
-                </ul>
-                {% endif %}
-            </div>
+            {% include 'partials/_product_pagination.html' %}
             {% endif %}
             {# end pagination section #}
             {% else %}
