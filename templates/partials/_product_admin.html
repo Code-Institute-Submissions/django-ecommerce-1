@@ -1,14 +1,20 @@
-{% if user.is_staff %}
+{% if perms.products %}
 <div class="dropdown">
     <button class="btn {% if product.id %}btn-link {% else %}btn-secondary {% endif %} btn-sm dropdown-toggle"
         type="button" id="productAdminMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin
     </button>
     <div class="dropdown-menu" aria-labelledby="productAdminMenu">
         {% if product.id %}
+        {% if perms.products.change_product %}
         <a class="dropdown-item" href="{% url 'product_update' pk=product.id %}">Update</a>
+        {% endif %}
+        {% if perms.products.delete_product %}
         <a class="dropdown-item" href="{% url 'product_delete' pk=product.id %}">Delete</a>
+        {% endif %}
         {% else %}
+        {% if perms.products.add_product %}
         <a class="dropdown-item" href="{% url 'product_create' %}">New Product</a>
+        {% endif %}
         {% endif %}
     </div>
 </div>
