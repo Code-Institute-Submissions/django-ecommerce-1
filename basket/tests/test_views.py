@@ -1,6 +1,5 @@
 import random
 import uuid
-from unittest.mock import Mock
 
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -9,9 +8,8 @@ from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.contrib.messages.storage.fallback import FallbackStorage
 
-from ..views import view_basket, add_to_basket, get_basket
+from ..views import view_basket, add_to_basket
 from ..models import Basket, BasketItem
-from ..middleware import BasketMiddleware
 from products.models import Product
 
 
@@ -83,7 +81,7 @@ class ViewBasketTest(TestCase):
         expected_total = self.product1.price * quantity
 
         # add items to basket
-        item1 = BasketItem.objects.create(
+        BasketItem.objects.create(
             basket=self.basket, product=self.product1, quantity=quantity)
 
         # create request
@@ -107,9 +105,9 @@ class ViewBasketTest(TestCase):
         quantity2 = 5
 
         # add items to basket
-        item1 = BasketItem.objects.create(
+        BasketItem.objects.create(
             basket=self.basket, product=self.product1, quantity=quantity1)
-        item2 = BasketItem.objects.create(
+        BasketItem.objects.create(
             basket=self.basket, product=self.product2, quantity=quantity2)
 
         total_quantity = quantity1 + quantity2
@@ -122,13 +120,14 @@ class ViewBasketTest(TestCase):
 
         # perform tests
         self.assertContains(response, '<span class="badge badge-pill '
-                            f'badge-warning cart-badge">{total_quantity}</span>')
+                            f'badge-warning cart-badge">{total_quantity}'
+                            '</span>')
 
     def test_update_basket(self):
         """Update quantity of items in basket"""
         quantity = 3
 
-        item1 = BasketItem.objects.create(
+        BasketItem.objects.create(
             basket=self.basket, product=self.product1, quantity=quantity)
 
         # create request
@@ -173,7 +172,7 @@ class ViewBasketTest(TestCase):
         subtotal2 = self.product2.price * quantity2
 
         self.assertEqual(item1.subtotal(), subtotal1)
-        self.assertEqual(item1.subtotal(), subtotal1)
+        self.assertEqual(item2.subtotal(), subtotal2)
 
         # check basket for subtotal values
         self.assertContains(response, subtotal1)
@@ -186,9 +185,9 @@ class ViewBasketTest(TestCase):
         quantity2 = 3
 
         # add items to basket
-        item1 = BasketItem.objects.create(
+        BasketItem.objects.create(
             basket=self.basket, product=self.product1, quantity=quantity1)
-        item2 = BasketItem.objects.create(
+        BasketItem.objects.create(
             basket=self.basket, product=self.product2, quantity=quantity2)
 
         # create request
@@ -219,9 +218,9 @@ class ViewBasketTest(TestCase):
         quantity2 = 2
 
         # add items to basket
-        item1 = BasketItem.objects.create(
+        BasketItem.objects.create(
             basket=user_basket, product=self.product1, quantity=quantity1)
-        item2 = BasketItem.objects.create(
+        BasketItem.objects.create(
             basket=user_basket, product=self.product2, quantity=quantity2)
 
         # log in to user account (returns boolean)
@@ -241,7 +240,7 @@ class ViewBasketTest(TestCase):
         # load basket view and check contents
         response = self.client.get(self.reverse_url)
         # make sure user is no longer logged in
-        self.assertTrue(response.context['user'].is_authenticated == False)
+        self.assertTrue(response.context['user'].is_authenticated is False)
         # now check basket contents
         self.assertNotContains(response, self.product1.title)
         self.assertNotContains(response, self.product2.title)
@@ -292,7 +291,7 @@ class AddToBasketTest(TestCase):
         self.basket = Basket.objects.create(user=None)
 
     def test_add_valid_product(self):
-        """Check that adding product with a valid product uuid, results in 
+        """Check that adding product with a valid product uuid, results in
         product being added to the basket view"""
         product = Product.objects.get(title='Doggie Treats 9')
         url = reverse('add_to_basket', kwargs={'product_id': product.id})
@@ -319,7 +318,7 @@ class AddToBasketTest(TestCase):
         self.assertContains(basket_response, product.title)
 
     def test_add_invalid_product(self):
-        """Check that adding product with an invalid product uuid results in 
+        """Check that adding product with an invalid product uuid results in
         an error being raised"""
         # create a random uuid
         product_id = uuid.uuid4()
@@ -350,7 +349,7 @@ class AddToBasketTest(TestCase):
         quantity = 4
 
         # add item to basket
-        item = BasketItem.objects.create(
+        BasketItem.objects.create(
             basket=self.basket, product=product, quantity=quantity)
 
         # now that basket has item at maximum permitted quantity, try to add
@@ -374,19 +373,19 @@ class AddToBasketTest(TestCase):
         # run the view
         # item is already in basket, therefore, quantity will be increased
         # BUT only if it does not exceed max quantity
-        response = add_to_basket(request, product.id)  # results in +1 quantity
+        add_to_basket(request, product.id)  # results in +1 quantity
         # load basket and check quantity
         basket_response = view_basket(request)
-        self.assertContains(basket_response, f'There are {quantity + 1} item(s)'
-                            ' in your basket')
+        self.assertContains(basket_response, f'There are {quantity + 1} '
+                            'item(s) in your basket')
 
         # run view again - this time quantity should not change
         # because max quantity has been reached
-        response = add_to_basket(request, product.id)  # results in +1 quantity
+        add_to_basket(request, product.id)  # results in +1 quantity
         # load basket and check quantity
         basket_response = view_basket(request)
-        self.assertContains(basket_response, f'There are {quantity + 1} item(s)'
-                            ' in your basket')
+        self.assertContains(basket_response, f'There are {quantity + 1} '
+                            'item(s) in your basket')
 
 
 class GetBasketTest(TestCase):

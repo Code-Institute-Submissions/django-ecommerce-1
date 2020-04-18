@@ -1,6 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
-from django.http import HttpResponse
 from django.contrib import messages
 from django.db import transaction
 from django.dispatch import receiver
@@ -22,7 +21,8 @@ def view_basket(request):
             formset = BasketFormSet(instance=request.basket)
         else:
             messages.error(
-                request, 'Your basket could not be updated, please review any error messages below.')
+                request, 'Your basket could not be updated, please review any '
+                'error messages below.')
 
     else:
         if hasattr(request, 'basket'):
