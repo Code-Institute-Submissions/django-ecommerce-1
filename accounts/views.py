@@ -2,10 +2,7 @@ from django.views.generic.edit import UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 
-
 from .forms import ProfileForm
-
-# Create your views here.
 
 
 class ProfilePageView(LoginRequiredMixin, UpdateView):
@@ -14,7 +11,13 @@ class ProfilePageView(LoginRequiredMixin, UpdateView):
     template_name = 'account/profile.html'
 
     def get_object(self, queryset=None):
-        return self.request.user
+        """Override default object to return user object"""
+        if self.request.user.is_authenticated:
+            user = self.request.user
+        else:
+            user = None
+
+        return user
 
     def form_valid(self, form):
         messages.success(self.request, 'Your profile has been updated.')
