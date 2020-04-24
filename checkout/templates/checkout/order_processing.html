@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+{% block title %} | Shipping details{% endblock title %}
+{% block header %}
+<link rel="stylesheet" href="{% static 'css/payment.css' %}">
+{% endblock %}
+
+{% block content %}
+<h1 class="m-4">Complete your order</h1>
+{% spaceless %}
+
+<div id="accordion" class="order-form">
+    <div class="card">
+        <div class="card-header" id="shipping-details">
+            <h5><i class="fas fa-truck mr-3"></i>Shipping address</h5>
+        </div>
+
+        <div id="collapseOne" class="collapse show" aria-labelledby="shipping-details" data-parent="#accordion">
+            <div class="card-body">
+                <p>If you need to update the billing details below, you can do so in your <a
+                        href="{% url 'account_profile' %}">Profile</a>.</p>
+                {% crispy shipping_form %}
+                <button class="btn btn-primary collapsed float-right mb-2" data-toggle="collapse"
+                    data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Next
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header" id="order-details">
+            <h5><i class="fas fa-shopping-basket mr-3"></i>Review your order</h5>
+        </div>
+        <div id="collapseTwo" class="collapse" aria-labelledby="order-details" data-parent="#accordion">
+            <div class="card-body">
+                <!-- start product loop -->
+                <div class="table-responsive">
+                    <table class="table basket">
+                        <thead>
+                            <tr>
+                                <th scope="col">Product</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in request.basket.basketitem_set.all %}
+                            <tr>
+                                <td>{{ item.product.title }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td class="item-total">€{{ item.subtotal }}</td>
+                            </tr>
+                            {% endfor %}
+                            <tr class="delivery">
+                                <td></td>
+                                <td>Delivery</td>
+                                <td>FREE</td>
+                            </tr>
+
+                            <tr class="total">
+                                <td></td>
+                                <td>Total</td>
+                                <td class="item-total">€{{ request.basket.total|intcomma}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- end product loop -->
+                <button class="btn btn-outline-primary collapsed mb-2" data-toggle="collapse" data-target="#collapseOne"
+                    aria-expanded="false" aria-controls="collapseOne">
+                    Previous </button>
+                <button class="btn btn-primary collapsed float-right mb-2" data-toggle="collapse"
+                    data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Next
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card mb-3">
+        <div class="card-header" id="payment-details">
+            <h5><i class="fas fa-credit-card mr-3"></i>Make payment</h5>
+        </div>
+        <div id="collapseThree" class="collapse" aria-labelledby="payment-details" data-parent="#accordion">
+            <div class="card-body">
+                <div class="stripe-body">
+                    <!-- stripe form -->
+                    {% spaceless off %}
+                    {% crispy payment_form %}
+                    {% endspaceless %}
+                    <!-- end stripe form -->
+                </div>
+                <button class="btn btn-outline-primary collapsed mb-2" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="false" aria-controls="collapseTwo">Previous</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endspaceless %}
+{% endblock content %}
+
+{% block footer %}
+<script src="{% static 'js/payment.js' %}"></script>
+{% endblock %}

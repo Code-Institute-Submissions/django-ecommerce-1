@@ -57,7 +57,8 @@ span.cart-badge {
 }
 
 .basket .item-price,
-.total td {
+.total td,
+.delivery td {
     font-weight: bold;
 }
 
@@ -120,4 +121,16 @@ span.verified {
 
 .add_email {
     margin-top: 20px;
+}
+
+/* order form */
+.order-form h5 {
+    text-transform: uppercase;
+    margin-bottom: 0;
+    font-weight: bolder;
+}
+
+.order-form h5>i {
+    font-size: 25px;
+    color: #292b2c;
 }
