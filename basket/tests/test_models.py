@@ -222,7 +222,7 @@ class CreateOrderTest(TestCase):
             )
 
     def test_create_order_check_order_status_updates_correctly(self):
-        """Test that when stripe_id is passed through the resultant Order 
+        """Test that when stripe_id is passed through the resultant Order
         object status is updated to PAID"""
 
         user = get_user_model().objects.create_user(
@@ -245,7 +245,6 @@ class CreateOrderTest(TestCase):
 
         quantity1 = 3
         quantity2 = 5
-        quantity = quantity1 + quantity2
 
         # add products to basket
         BasketItem.objects.create(
