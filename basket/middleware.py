@@ -15,7 +15,9 @@ class BasketMiddleware:
             # make sure the basket exists in the db
             try:
                 # store basket object in request object to access from any view
-                request.basket = Basket.objects.get(id=basket_id)
+                request.basket = Basket.objects.get(
+                    id=basket_id,
+                    status=Basket.IN_PROGRESS)
             except Basket.DoesNotExist:
                 # basket not in db, unset variables
                 request.session['basket_id'] = None
