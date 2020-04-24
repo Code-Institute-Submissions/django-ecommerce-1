@@ -3,8 +3,13 @@ from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 from products.models import Product
+from checkout.models import Order, OrderItem
 
 # Create your models here.
+
+
+class BasketException(Exception):
+    """Capture basket related exceptions"""
 
 
 class Basket(models.Model):
@@ -50,6 +55,66 @@ class Basket(models.Model):
                 total += quantity * price
 
         return total
+
+    def create_order(self, order_details, stripe_id=None):
+        """Convert active basket into an order in the checkout app"""
+        # check user exists
+        items = self.basketitem_set.all()
+        number_of_items = items.count()
+        user = self.user
+
+        if not user:
+            # called with no user
+            raise BasketException(
+                'Order cannot be generated as there is no associated user')
+
+        if not number_of_items:
+            # called with no items in basket
+            raise BasketException('Order cannot be generated as the basket '
+                                  'is empty')
+
+        if not stripe_id:
+            # stripe_id is confirmation of payment, required field
+            raise BasketException('Order cannot be created as there was a '
+                                  'problem identifying the payment.')
+
+        # create order
+        order_data = {
+            'user': user,
+            # billing data is populated from user profile
+            'billing_name': user.first_name + ' ' + user.last_name,
+            'billing_address': user.address,
+            'billing_city': user.city,
+            'billing_country': user.country,
+            'billing_post_code': user.post_code,
+            # user can add shipping information if different from billing
+            'shipping_name': order_details.get('shipping_name'),
+            'shipping_address': order_details.get('shipping_address'),
+            'shipping_city': order_details.get('shipping_city'),
+            'shipping_country': order_details.get('shipping_country'),
+            'shipping_post_code': order_details.get('shipping_post_code'),
+            # store stripe payment id
+            'stripe_id': stripe_id
+        }
+
+        order = Order.objects.create(**order_data)
+
+        # loop through basket contents and add to orderitem object
+        for item in items:
+            for single_item in range(item.quantity):
+                # input each item as a single item
+                # an item with a quantity of three will be inputted three times
+                OrderItem.objects.create(
+                    order=order,
+                    product=item.product,
+                    price=item.product.price
+                )
+
+        # update basket so it can no longer be modified
+        self.status = Basket.PROCESSED
+        self.save()
+
+        return order
 
 
 class BasketItem(models.Model):
