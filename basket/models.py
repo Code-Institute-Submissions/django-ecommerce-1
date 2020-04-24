@@ -99,6 +99,10 @@ class Basket(models.Model):
 
         order = Order.objects.create(**order_data)
 
+        # since stripe_id is NOT None, payment has been received
+        order.status = Order.PAID
+        order.save()
+
         # loop through basket contents and add to orderitem object
         for item in items:
             for single_item in range(item.quantity):

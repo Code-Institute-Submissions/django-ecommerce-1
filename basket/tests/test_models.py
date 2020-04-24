@@ -7,6 +7,7 @@ from django.contrib.auth import get_user_model
 
 from basket.models import Basket, BasketItem, BasketException
 from products.models import Product
+from checkout.models import Order
 
 
 class CreateOrderTest(TestCase):
@@ -219,3 +220,54 @@ class CreateOrderTest(TestCase):
             basket.create_order(
                 order_details=shipping_details
             )
+
+    def test_create_order_check_order_status_updates_correctly(self):
+        """Test that when stripe_id is passed through the resultant Order 
+        object status is updated to PAID"""
+
+        user = get_user_model().objects.create_user(
+            username='test@test.com',
+            email='test@test.com',
+            password='pass1234',
+            first_name='Doogan',
+            last_name='Doogle',
+            address='1234 Test Lane',
+            city='Dublin',
+            country='Ireland',
+            post_code='D01 XE18'
+        )
+
+        # create basket
+        basket = Basket.objects.create(user=user)
+        # get product objects
+        product1 = Product.objects.get(title='Doggie Treats 1')
+        product2 = Product.objects.get(title='Doggie Treats 2')
+
+        quantity1 = 3
+        quantity2 = 5
+        quantity = quantity1 + quantity2
+
+        # add products to basket
+        BasketItem.objects.create(
+            basket=basket, product=product1, quantity=quantity1
+        )
+        BasketItem.objects.create(
+            basket=basket, product=product2, quantity=quantity2
+        )
+
+        # create order form basket
+        shipping_details = {
+            'shipping_name': 'Doogan Doogle',
+            'shipping_address': '1234 Test Lane',
+            'shipping_city': 'Dublin',
+            'shipping_country': 'Ireland',
+            'shipping_post_code': 'D01 XE18'
+        }
+
+        order = basket.create_order(
+            order_details=shipping_details,
+            stripe_id='test'
+        )
+
+        # perform tests
+        self.assertEqual(order.status, Order.PAID)
