@@ -12,6 +12,8 @@ flake8 = "*"
 django-crispy-forms = "*"
 django-allauth = "*"
 pillow = "*"
+coverage = "*"
+stripe = "*"
 
 [requires]
 python_version = "3.7"
