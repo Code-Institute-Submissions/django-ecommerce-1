@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'products.apps.ProductsConfig',
     'basket.apps.BasketConfig',
     'checkout.apps.CheckoutConfig',
-    'orders.apps.OrdersConfig',
+    # 'orders.apps.OrdersConfig',
 ]
 
 MIDDLEWARE = [
@@ -175,3 +175,7 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+
+# stripe keys
+STRIPE_TEST_PUBLISHABLE_KEY = os.environ.get('STRIPE_TEST_PUBLISHABLE_KEY')
+STRIPE_TEST_SECRET_KEY = os.environ.get('STRIPE_TEST_SECRET_KEY')
