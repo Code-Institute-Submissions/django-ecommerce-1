@@ -15,4 +15,4 @@ script:
     - docker-compose run web flake8
 
 after_success:
-    - docker-compose run web $CI_ENV
+    - docker-compose run web codecov
