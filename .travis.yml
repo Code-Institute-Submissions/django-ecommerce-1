@@ -11,5 +11,8 @@ before_script:
     - pip install docker-compose
 
 script:
-    - docker-compose run web python manage.py test --settings=settings.test 
+    - docker-compose run web coverage run manage.py test --settings=settings.test 
     - docker-compose run web flake8
+
+after_success:
+    - bash <(curl -s https://codecov.io/bash)

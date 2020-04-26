@@ -14,6 +14,7 @@ django-allauth = "*"
 pillow = "*"
 coverage = "*"
 stripe = "*"
+codecov = "*"
 
 [requires]
 python_version = "3.7"
