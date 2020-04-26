@@ -11,8 +11,8 @@ before_script:
     - pip install docker-compose
 
 script:
-    - docker-compose run web coverage run manage.py test --settings=settings.test 
     - docker-compose run web flake8
+    - docker-compose run web coverage run manage.py test --settings=settings.test 
 
 after_success:
-    - docker-compose run web codecov
+    - docker-compose run web codecov --token=${CODECOV_TOKEN}

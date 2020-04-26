@@ -17,7 +17,6 @@ services:
             - DB_PORT=${DB_PORT}
             - STRIPE_TEST_PUBLISHABLE_KEY=${STRIPE_TEST_PUBLISHABLE}
             - STRIPE_TEST_SECRET_KEY=${STRIPE_TEST_SECRET}
-            - CI_ENV=`bash <(curl -s https://codecov.io/env)`
         command: python manage.py runserver 0.0.0.0:8000 --settings=settings.local
         volumes:
             - .:/code
