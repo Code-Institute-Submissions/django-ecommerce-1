@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% load myproduct_tags %}
+
+{% block header %}
+<link rel="stylesheet" href="{% static 'css/carousel.css' %}">
+{% endblock %}
+
+{% block content %}
+<div>
+    <h1>Logo here</h1>
+</div>
+
+
+<div class="container-fluid">
+    {% if most_popular %}
+    <div class="most-popular-container"></div>
+    <h3>Most Popular</h3>
+    <div id="carousel-most-popular" class="carousel slide" data-ride="carousel" data-interval="false">
+        <div class="carousel-inner row w-100 mx-auto" role="listbox">
+            {% for product in most_popular %}
+            <div
+                class="most-popular carousel-item col-12 col-sm-6 col-md-4 col-lg-3{% if forloop.counter == 1 %} active{% endif %} text-center">
+                <img class="img-fluid mx-auto d-block" src="{{ product.image.url }}" alt="Product image">
+                <h5 class="card-title">{{ product.title }}</h5>
+                <p class="product-rating">
+                    {% autoescape off %}
+                    {{ product.rating|star_generator }}
+                    {% endautoescape %}
+                </p>
+                <p class="product-price">€{{ product.price|intcomma }}</p>
+                <a href="{% url 'add_to_basket' product_id=product.id %}" class="btn btn-success btn-sm">Add
+                    to
+                    Basket</a>
+            </div>
+            {% endfor %}
+        </div>
+        <a class="carousel-control-prev" href="#carousel-most-popular" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carousel-most-popular" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    {% endif %}
+
+    {% if new_products %}
+    <div class="new-products-container">
+        <h3>New Products</h3>
+        <div id="carousel-new-products" class="carousel slide" data-ride="carousel" data-interval="false">
+            <div class="carousel-inner row w-100 mx-auto" role="listbox">
+                {% for product in new_products %}
+                <div
+                    class="new-products carousel-item col-12 col-sm-6 col-md-4 col-lg-3{% if forloop.counter == 1 %} active{% endif %} text-center">
+                    <img class="img-fluid mx-auto d-block" src="{{ product.image.url }}" alt="Product image">
+                    <h5 class="card-title">{{ product.title }}</h5>
+                    <p class="product-rating">
+                        {% autoescape off %}
+                        {{ product.rating|star_generator }}
+                        {% endautoescape %}
+                    </p>
+                    <p class="product-price">€{{ product.price|intcomma }}</p>
+                    <a href="{% url 'add_to_basket' product_id=product.id %}" class="btn btn-success btn-sm">Add
+                        to
+                        Basket</a>
+                </div>
+                {% endfor %}
+            </div>
+            <a class="carousel-control-prev" href="#carousel-new-products" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carousel-new-products" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
