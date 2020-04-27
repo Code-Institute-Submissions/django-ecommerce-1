@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+{% block title %} | Order History{% endblock title %}
+
+{% block content %}
+<h1 class="m-4">Order History</h1>
+{% spaceless %}
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Order placed</th>
+                <th scope="col">Products</th>
+                <th scope="col">Total cost</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in object_list %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ order.order_date|date:"d M Y" }}</td>
+                <td>
+                    <ul class="order-items">
+                        {% for item in order.orderitem_set.all %}
+                        <li>{{item.product.title}}
+                            <span
+                                class="float-right badge badge-pill badge-{% if item.status < 3 %}primary{% elif item.status >= 3 and item.status < 5 %}success{% elif item.status == 5 %}danger{% endif %}">{% if item.status < 3 %}To
+                                be picked{% else %}{{item.get_status_display}}{% endif %}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>€{{ order.total }}</td>
+                <td>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: {{ order.status_progress }}%"
+                            aria-valuenow="{{ order.status_progress }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <span><small>{% if order.status == 1 %}Awaiting
+                            payment{% else %}{{ order.get_status_display }}{% endif %}</small></span>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endspaceless %}
+{% endblock content %}
