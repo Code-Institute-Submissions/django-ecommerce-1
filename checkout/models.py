@@ -15,7 +15,7 @@ class Order(models.Model):
     STATUS_CHOICES = (
         (NEW, 'New'),
         (PAID, 'Payment received'),
-        (IN_PROGRESS, 'In progress'),
+        (IN_PROGRESS, 'Order being picked'),
         (COMPLETE, 'Complete'),
     )
 
@@ -69,9 +69,26 @@ class Order(models.Model):
 
         return count
 
-    # def total_price(self):
-    #     """sum the total cost of all items"""
-    #     pass
+    def status_progress(self):
+        """Return progress as a number out of 100 to render status bar"""
+        # subtract 1 from status and total choices so that progress bar is
+        # empty when status is 'New' (1-1=0) and full when 'Complete' (4-1=3)
+        return int((self.status - 1) / (len(self.STATUS_CHOICES) - 1) * 100)
+
+    def total(self):
+        """sum the total cost of all items"""
+        products = self.orderitem_set.all().values_list('product_id')
+
+        total = 0
+
+        if products:
+            for product in products:
+                product_id = product[0]
+                price = Product.objects.get(id=product_id).price
+
+                total += price
+
+        return total
 
 
 class OrderItem(models.Model):
