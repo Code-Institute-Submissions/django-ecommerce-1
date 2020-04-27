@@ -2,8 +2,9 @@
 
 {% block title %} | Update Profile{% endblock title %}
 {% block content %}
-<h1>Profile
-    <section id="profile-links" class="text-right">
+<h1>Profile</h1>
+<div class="row mb-3">
+    <section id="profile-links col-12">
         <a href="{% url 'account_profile' %}"
             class="btn btn-sm btn-outline-dark {% if 'profile' in request.path %} active {% endif %}">Update
             Personal
@@ -14,9 +15,7 @@
             class="btn btn-sm btn-outline-dark {% if 'password' in request.path %} active {% endif %}">Change
             Password</a>
     </section>
-</h1>
-<!-- <hr> -->
-
+</div>
 {% block profile_content %}
 {% endblock profile_content %}
 
