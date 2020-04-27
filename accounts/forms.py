@@ -66,7 +66,7 @@ class CustomSignupForm(SignupForm):
                          Div('date_of_birth', css_class='col-12 col-md-4'),
                          css_class='row')
                      ),
-            Fieldset('Address',
+            Fieldset('Billing Address',
                      Div(
                          Div('address', css_class='col-12'),
                          Div('city', css_class='col-12 col-sm-4'),
