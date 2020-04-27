@@ -29,7 +29,7 @@
             <div class="col-8 order-md-0">{{ product.brand }}</div>
 
             <div class="col-4 order-md-0">Price</div>
-            <div class="col-8 order-md-0 product-price">€{{ product.price }}</div>
+            <div class="col-8 order-md-0 product-price">€{{ product.price|intcomma }}</div>
 
             <div class="offset-4 col-6 order-md-3">
                 <a href="{% url 'add_to_basket' product_id=product.id %}" class="btn btn-success">Add to Basket</a>
@@ -47,13 +47,13 @@
         <h2 class="mb-3">Reviews</h2>
         {% for review in product.reviews.all %}
         <div class="row">
-            <div class="col-3">
+            <div class="offset-1 col-4">
                 {% autoescape off %}
                 {{ review.rating|star_generator }}
                 {% endautoescape %}
             </div>
-            <div class="col-4">{{ review.user }}</div>
-            <div class="col-5">{{ review.date|naturaltime }}</div>
+            <div class="col-6">{{ review.user }}</div>
+            <div class="col-12"><small>{{ review.date|naturaltime }}</small></div>
 
             <div class="col-12">{{ review.review }}</div>
             <div class="offset-2 col-8">
