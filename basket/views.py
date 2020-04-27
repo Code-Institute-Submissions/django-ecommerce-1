@@ -37,15 +37,13 @@ def view_basket(request):
 
 @transaction.atomic
 def add_to_basket(request, product_id):
-    basket = ''
     product = get_object_or_404(Product, id=product_id)
 
-    if hasattr(request, 'basket'):
+    if hasattr(request, 'basket') and request.basket is not None:
         # basket already exists
         basket = request.basket
     else:
-        # this is a new basket
-
+        # no basket in request object - this is a new basket
         if request.user.is_authenticated:
             user = request.user
         else:
@@ -143,6 +141,9 @@ def get_basket(sender, user, request, **kwargs):
             try:
                 basket = Basket.objects.get(
                     id=request.session['basket_id'], user=None)
-                basket.update(user=user)
+
+                if basket:
+                    # basket exists, update user to current user
+                    basket.update(user=user)
             except Basket.DoesNotExist:
                 pass

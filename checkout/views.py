@@ -52,15 +52,19 @@ def process_order(request):
                         request.basket = None
 
                         messages.success(request,
-                                         'Your order has been completed.')
+                                         'Your payment has been received. You'
+                                         ' will receive an email when your '
+                                         'order has been shipped.')
                         return redirect(reverse('home'))
-
+                except stripe.error.CardError:
+                    messages.error(
+                        'Your payment card has been declined. Please try '
+                        'another card.')
                 except Exception as e:
                     print(e)
-
-                messages.error(request,
-                               'There was a problem processing your order, '
-                               'please try again.')
+                    messages.error(request,
+                                   'There was a problem processing your order,'
+                                   ' please try again.')
 
                 return redirect(reverse('checkout'))
         else:
@@ -90,7 +94,6 @@ def process_order(request):
         total = basket.total()
         total_stripe = int(total * 100)
         # setup stripe variables
-        # stripe.api_key = settings.STRIPE_TEST_SECRET_KEY
         intent = stripe.PaymentIntent.create(
             amount=total_stripe,
             currency='eur',
