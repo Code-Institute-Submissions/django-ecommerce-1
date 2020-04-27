@@ -124,3 +124,21 @@ class ViewCheckoutTest(TestCase):
 
         response = process_order(request)
         self.assertEqual(response.status_code, 200)
+
+    def test_template_used(self):
+        """Check the template used is the intended one"""
+
+        # login
+        self.client.force_login(user=self.user)
+
+        # add products via http request
+        url = reverse('add_to_basket', kwargs={'product_id': self.product1.id})
+        # load page (execute add to basket)
+        self.client.get(url)
+
+        # go to checkout
+        response = self.client.get(self.reverse_url)
+
+        # run tests
+        self.assertTemplateUsed(
+            response, template_name='checkout/order_processing.html')
