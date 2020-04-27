@@ -22,7 +22,7 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         """define default url for an instance of product model"""
-        return reverse('product_detail', args=[str(self.id)])
+        return reverse('product_detail', kwargs={'pk': str(self.id)})
 
 
 class Review(models.Model):
