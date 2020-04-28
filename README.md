@@ -1,10 +1,12 @@
 
-# django-petstore
+# Pet Store Ecommerce Application
 
 [![Build Status](https://travis-ci.org/jyoung90ie/django-petstore.svg?branch=master)](https://travis-ci.org/jyoung90ie/django-petstore)
-[![codecov](https://codecov.io/gh/jyoung90ie/django-petstore/branch/master/graph/badge.svg)](https://codecov.io/gh/jyoung90ie/django-petstore)
+[![codecov](https://codecov.io/gh/jyoung90ie/django-ecommerce/branch/master/graph/badge.svg)](https://codecov.io/gh/jyoung90ie/django-ecommerce)
 
-This is an E-Commerce store developed using Django.
+This is a project for the final milestone project at [Code Institute](https://codeinstitute.net/) to demonstrate my learning and understanding throughout the course. I chose to develop an ecommerce shopping website as it is a complex and flexible application which challenged my understanding of the technologies involved. Given the sensitivity involved in handling customer details I had to approach development from a security conscious perspective. 
+
+Overall I believe I produced an application that is very adaptable and can be repurposed for many ecommerce applications, including subscriptions and transactional services. There are a number of features which I would have liked to include for submission of my milestone project, however, due to time constraints these were not feasible at this point-in-time.
 
 ## UX
 
@@ -13,6 +15,8 @@ This is an E-Commerce store developed using Django.
 Prior to development of the application, I developed a number of wireframes which demonstrate my vision for how the website should look on multiple devices. You can view these wireframes [here](wireframes/).
 
 ### User Stories
+
+Include User Stores here
 
 ## Features
 
@@ -54,8 +58,6 @@ d) **Profile - Personal Details:** The user can update their billing address fro
 e) **Profile - Change email:** A user can have multiple emails if they wish, this functionality is leveraged from django-allauth. The user can log in with all email addresses under their account. I decided to include this functionality to enable users to have one householder account if they wish.
 
 f) **Profile - Change password:** For security, a user must provide their current password alongside a new password before it will be accepted and updated.
-
-g) **Reset password:** TBC - Functionality provided by django-allauth with a custom template.
 
 #### Basket
 
@@ -239,30 +241,195 @@ d) **production.py:** these are the settings used for deployment in the producti
 ### Third-party services
 
 - [Stripe](https://stripe.com/)
+  - This is used to securely process customer payment details. No payment data is handled or stored by the application, it is all handled by Stripe. This makes for easy and secure integration and verification of payments.
 
 - [Travis CI](https://travis-ci.org/)
+  - Everytime a new commit is pushed to Github Travis CI performs the testing I have specified in the travis.yml configuration file.
+  - This automtically alerts me to any new commits which have resulted in a broken build, which helps me to quickly identify and fix problems with deployment of new code.
+  - I have also setup Travis CI to run Flake8, which is a wrapper for a number of other tools that check ensure compliance with PEP8 and good coding practices.
+  - Travis CI runs all testing through the Python coverage tool which outputs documentation detailing how much of the development code has been unit tested. I have set this up to provide the results to CodeCov (see below) for coverage transparency.
 
 - [CodeCov](https://codecov.io/)
+  - This is a reporting tool that is used to transparently show what code has and has not been tested within an application.
+  - In my case I have included a coverage badge at the top of this readme, showing how much of my development code is currently tested.
+  - I have implemented a personal goal to only commit code that will result in this coverage percentage either remaining the same or increasing. I believe this is a good coding practice to enforice.
+  - This tool has helped me easily identify areas that I need to improve testing of.
 
 ## Testing
 
 ### Automated
 
-### PEP8
+Within the overall ecommerce application, each app has a testing module which contains extensive unit testing. This is all visible within Github and will demonstrate the extent of the testing. However, if you would like to understand the coverage of the unit testing this can be found on at the [CodeCov repo](hhttps://codecov.io/gh/jyoung90ie/django-ecommerce/)
 
 ### Manual
 
 ## Deployment
 
+### Stripe (Payments API) setup
+
+Prior to deploying the application to Heroku it is recommended that you create a Stripe account to use the payment processing functionality - note: the application is set for test payments only. Follow the steps below to create an account and to retrieve the necessary keys you will need later.
+
+1. Create an account at [Stripe](https://dashboard.stripe.com/register)
+
+2. Goto the [account dashboard](https://dashboard.stripe.com/test/dashboard).
+
+3. Click the _Developers_ link then [API keys](https://dashboard.stripe.com/test/apikeys)
+
+4. You will see two keys; `Publishable key` and `Secret key`. Keep these private, you will need them later when setting environment variables in Heroku.
+
+| Stripe Key | Maps to Environment Key |
+| ---------- | ----------------------- |
+| Publishable key | STRIPE_TEST_PUBLISHABLE |
+| Secret key | STRIPE_TEST_SECRET |
+
 ### Remote (Heroku)
 
-### Local
+1. Create an account at [Heroku](https://www.heroku.com/).
+
+2. Download CLI [here](https://devcenter.heroku.com/articles/getting-started-with-python#set-up).
+
+3. Open up CMD (Windows) or Terminal (MacOS) and type the following and follow the instructions that appear.
+
+```terminal
+heroku login
+```
+
+4. Create a new Heroku app using the following code in your terminal:
+
+```terminal
+heroku create app-name-here
+```
+
+5. With the Heroku app name you just created, modified the `production.py` file in the settings folder and update the following:
+
+```python
+ALLOWED_HOSTS = ['your-app-name.herokuapp.com', '127.0.0.1', 'localhost']
+```
+
+6. Open the [Heroku apps](https://dashboard.heroku.com/apps) webpage and click the app you created in Step 4.
+
+7. Navigate to the Settings tab on the top horizontal bar, we will be adding the required _environment variables_ here.
+
+8. Click the _'Reveal Config Vars'_ button and add the below variables:
+
+| KEY  | VALUE |
+| ---- | ----- |
+| `ENV_SETTINGS` | `settings.production` |
+| `SECRET_KEY` | input your own value here |
+| `STRIPE_TEST_PUBLISHABLE` | input your own value here |
+| `STRIPE_TEST_SECRET` | input your own value here |
+
+9. Given the application has been developed within a Docker container, it will be deployed to Heroku using Docker. To enable this, Heroku requires a *[heroku.yml]* file is created. The [Heroku documentation](https://devcenter.heroku.com/articles/build-docker-images-heroku-yml) provides more detail on this.
+
+10. The Heroku stack will need to be set to use container - this is specific to deployment with Docker. You can find out more [here](https://devcenter.heroku.com/articles/stack). To do this type the following command into your terminal:
+
+```terminal
+heroku stack:set container -a app-name-here
+```
+
+11. You can verify the above was completed by going to your app's overview screen, on the Heroku website and clicking the latest activity, you should see something similiar to:
+
+```text
+email@address.com: Upgrade stack to container
+```
+
+12. A database is required to run the application, we will use Heroku's free option to do so. This step can be completed using the terminal, with the following code:
+
+```terminal
+heroku addons:create heroku-postgresql:hobby-dev -a app-name-here
+```
+
+13. To push the code to the Heroku app, a git remote link needs to be added and the code then needs to be pushed. To do this, within your terminal write the following code:
+
+```terminal
+heroku git:remote -a app-name-here
+git push heroku master
+```
+
+14. Given this will be a fresh build, Django will need to create the required databases in our database. Run the following code in your terminal:
+
+```terminal
+heroku run python manage.py migrate --settings=settings.production
+```
+
+_**NOTE:** `--settings=settings.production` is required because Django by default looks for the file, `settings.py`. This does not exist within this application, instead a settings folder has been setup with different settings dependent on the environment the application is being run on._
+
+15. Next, a superuser account needs to be created to manage the application. Type the following into your terminal:
+
+```terminal
+heroku run python manage.py createsuperuser --settings=settings.production
+```
+
+16. It is possible to link your Github repository to Heroku so that each time new code is committed to Github, it is also deployed to Heroku and thus your Heroku app is always sync to Github. To do this, nagivate to the following link and input your Github details. You will be prompted to search for the repo name. Once you have selected the repo make sure to click **Enable automatic deploys**.
+
+```url
+https://dashboard.heroku.com/apps/app-name-here/deploy/
+```
+
+### Local machine deployment
+
+If you wish to deploy this application to your local system, you can do so by following the steps below:
+
+1. You will need to download and install [Docker Desktop](https://www.docker.com/get-started)
+
+2. Download and install Git to your computer - see [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
+
+3. Once you have installed Git, you will need to create a folder on your computer and then run the _git clone_ command. A demonstration of this code can be seen below:
+
+```terminal
+mkdir ecommerceApp
+cd ecommerceApp
+git clone https://github.com/jyoung90ie/django-ecommerce
+```
+
+**_The following steps should all be performed while in the root folder of your travelPal git clone from step 2_**
+
+4. Download and install [Python](https://www.python.org/downloads/)
+
+5. Then install `docker-compose` using the following terminal command:
+
+```
+pip install docker-compose
+```
+
+5. Now the docker container needs to be built. Navigate to the root folder in the terminal (_ecommerceApp_) and input the code below.
+
+```terminal
+docker-compose up -d --build
+```
+
+*Depending on your ISP and/or computer speed this may take some time as it has to download large image files. Let it complete before proceeding.*
+
+6. Create a .env file and input the variables outlined below:
+
+| KEY  | VALUE |
+| ---- | ----- |
+| `DB_NAME` | `postgres` |
+| `DB_USER` | `postgres` |
+| `DB_PASS` | `postgres` |
+| `DB_HOST` | `db` |
+| `DB_HOST` | `5432` |
+| `SECRET_KEY` | input-a-value-here |
+| `STRIPE_TEST_PUBLISHABLE` | input value from the Stripe deployment section |
+| `STRIPE_TEST_SECRET` | input value from the Stripe deployment section |
+
+7. Now that the docker container is running, run the following commands to create the databases required and create a super user.
+
+```terminal
+docker-compose exec web python manage.py migrate --settings=settings.production
+docker-compose exec web python manage.py createsuperuser --settings=settings.production
+```
+
+8. The application will now be viewable at the following address:
+
+```url
+http://127.0.0.1:8000
+```
 
 ## Credits
 
-### Media
+### Acknowledgements
 
-Flaticon
-
-Django for Professionals by William S. Vincent.
 [Homepage Carousel](https://azmind.com/bootstrap-carousel-multiple-items/)
+
+[Django for Professionals by William S. Vincent](https://wsvincent.com/books/djangoforprofessionals): This book helped me embed some best practices throughout development, including the value of using Docker for development and deployment. I highly recommend it.
