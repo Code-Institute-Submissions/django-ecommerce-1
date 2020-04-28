@@ -5,7 +5,10 @@ import dj_database_url
 from .base import *
 
 db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
-DATABASES = {}
+
+DATABASES = {
+    'default': {}
+}
 DATABASES['default'].update(db_from_env)
 
 # SECURITY WARNING: keep the secret key used in production secret!
