@@ -1,0 +1,56 @@
+/* payment collapsible card */
+
+.stripe-body {
+    background-color: #f4f5f7;
+    border-radius: 10px;
+    width: 100%;
+    min-height: 100px;
+    max-width: 600px;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    font-family: Inter UI, Open Sans, Segoe UI, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+#card-errors {
+    color: #e25950ed;
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+/* payment button */
+#collapseThree .stripe-body button {
+    width: 100%
+}
+
+/* stripe styling */
+
+.StripeElement {
+    box-sizing: border-box;
+    height: 40px;
+    width: 100%;
+
+    padding: 10px 12px;
+    margin: 0 0 10px 0;
+
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background-color: white;
+
+    box-shadow: 0 1px 3px 0 #e6ebf1;
+    -webkit-transition: box-shadow 150ms ease;
+    transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+    box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+    border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+    background-color: #fefde5 !important;
+}

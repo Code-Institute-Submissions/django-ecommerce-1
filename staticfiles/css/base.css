@@ -1,0 +1,160 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* navbar */
+
+
+/* homepage */
+
+.best-sellers-container {
+    background-color: #0092D6;
+}
+
+.new-products-container {}
+
+/* general */
+.checked {
+    color: #ffb347;
+}
+
+.unchecked {
+    color: #cfcfc4;
+}
+
+span.cart-badge {
+    position: relative;
+    top: -20px;
+    left: -5px;
+}
+
+/* product listing page */
+.card-img-top {
+    height: 150px;
+    background-size: cover;
+}
+
+.product-list-item .card {
+    min-width: 100%;
+}
+
+.product-list-item:hover {
+    cursor: pointer;
+}
+
+/* product detail page */
+.product-detail div {
+    margin-bottom: 10px;
+}
+
+.product-detail-rating {
+    font-size: 30px;
+}
+
+.product-price {
+    font-size: 30px;
+    color: #0092D6;
+    font-weight: bold;
+}
+
+.product-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    min-width: 100px;
+}
+
+/* basket */
+.basket .item-total {
+    font-size: 18px;
+    color: #0092D6;
+    font-weight: bold;
+}
+
+.basket .item-price,
+.total td,
+.delivery td {
+    font-weight: bold;
+}
+
+.basket td,
+.basket th {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.basket td:first-child,
+.basket th:first-child {
+    text-align: left;
+}
+
+.basket input[type=number] {
+    max-width: 80px;
+    text-align: center;
+}
+
+.basket img {
+    height: 100%;
+    width: 100%;
+
+    max-height: 100px;
+    max-width: 150px;
+
+    object-fit: contain;
+}
+
+
+/* profile */
+#profile-links {
+    float: right;
+}
+
+
+/* change email */
+.profileEmail {
+    margin: 0 10px 0 10px;
+}
+
+.ctrlHolder,
+.buttonHolder {
+    padding-left: 10px;
+}
+
+.buttonHolder {
+    margin-top: 20px;
+}
+
+.email_list {
+    margin-left: 10px;
+    padding: 10px 0 10px 0;
+}
+
+span.unverified,
+span.verified {
+    font-weight: bold;
+}
+
+.add_email {
+    margin-top: 20px;
+}
+
+/* order form */
+.order-form h5 {
+    text-transform: uppercase;
+    margin-bottom: 0;
+    font-weight: bolder;
+}
+
+.order-form h5>i {
+    font-size: 25px;
+    color: #292b2c;
+}
+
+/* order history */
+ul.order-items {
+    list-style-type: none;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+}
