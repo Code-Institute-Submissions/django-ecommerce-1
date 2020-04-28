@@ -35,8 +35,10 @@ class CustomSignupForm(SignupForm):
     post_code = forms.CharField(max_length=30)
     date_of_birth = forms.DateField()
 
-    def signup(self, request, user):
-        """Override allauth signup method to use customised form"""
+    def save(self, request):
+        """Add additional fields to be saved"""
+        user = super(CustomSignupForm, self).save(request)
+
         user.first_name = self.cleaned_data['first_name']
         user.last_name = self.cleaned_data['last_name']
         user.address = self.cleaned_data['address']
