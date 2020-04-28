@@ -1,3 +1,19 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* navbar */
+
+
+/* homepage */
+
+.best-sellers-container {
+    background-color: #0092D6;
+}
+
+.new-products-container {}
+
+/* general */
 .checked {
     color: #ffb347;
 }
@@ -133,4 +149,12 @@ span.verified {
 .order-form h5>i {
     font-size: 25px;
     color: #292b2c;
+}
+
+/* order history */
+ul.order-items {
+    list-style-type: none;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
 }
