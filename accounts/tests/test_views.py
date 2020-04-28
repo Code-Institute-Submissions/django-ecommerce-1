@@ -1,57 +1,16 @@
+from datetime import datetime
+
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
-
-
-class CustomUserModelTests(TestCase):
-    """Test user defined CustomUser model"""
-
-    def setUp(self):
-        self.User = get_user_model()
-        self.account = {
-            'username': 'test_user',
-            'first_name': 'Test',
-            'last_name': 'User',
-            'email': 'test_user@test.com',
-            'password': 'really_tough_password1!',
-            'address': '123 Coders Drive',
-            'city': 'Big City',
-            'country': 'Python',
-            'post_code': 'PY11 2CD',
-            'date_of_birth': '1981-03-01'
-        }
-
-    def test_create_user(self):
-        """Check that user can be created with custom fields"""
-        user = self.User.objects.create_user(**self.account)
-
-        self.assertEqual(user.username, self.account['username'])
-        self.assertEqual(user.address, self.account['address'])
-        self.assertEqual(user.date_of_birth, self.account['date_of_birth'])
-        self.assertTrue(user.check_password(self.account['password']))
-        self.assertTrue(user.is_active)
-        self.assertFalse(user.is_staff)
-        self.assertFalse(user.is_superuser)
-
-    def test_create_superuser(self):
-        """Check that superuser can be created with custom fields"""
-        user = self.User.objects.create_superuser(**self.account)
-
-        self.assertEqual(user.username, self.account['username'])
-        self.assertEqual(user.address, self.account['address'])
-        self.assertEqual(user.date_of_birth, self.account['date_of_birth'])
-        self.assertTrue(user.check_password(self.account['password']))
-        self.assertTrue(user.is_active)
-        self.assertTrue(user.is_staff)
-        self.assertTrue(user.is_superuser)
 
 
 class RegisterPageTests(TestCase):
     """Registration page functionality testing"""
 
     def setUp(self):
-        url = reverse('account_signup')
-        self.response = self.client.get(url)
+        self.url = reverse('account_signup')
+        self.response = self.client.get(self.url)
 
     def test_register_page_exists(self):
         """Check that the page loads successfully"""
@@ -66,6 +25,44 @@ class RegisterPageTests(TestCase):
     def test_register_form_contains_csrf(self):
         """The form contains csrf token"""
         self.assertContains(self.response, 'csrfmiddlewaretoken')
+
+    def test_register_page_submission(self):
+        """Check that submission of form with valid data creates account"""
+        form_details = {
+            'first_name': 'Test',
+            'last_name': 'User',
+            'date_of_birth': '1981-03-01',
+            'address': '123 Coders Drive',
+            'city': 'Big City',
+            'country': 'Python',
+            'post_code': 'PY11 2CD',
+            'email': 'test_user@test.com',
+            'password1': 'really_tough_password1!',
+            'password2': 'really_tough_password1!'
+        }
+
+        response = self.client.post(self.url, data=form_details, follow=True)
+
+        # check account exists
+        user = get_user_model().objects.get(email=form_details['email'])
+
+        self.assertEqual(form_details['first_name'], user.first_name)
+        self.assertEqual(form_details['last_name'], user.last_name)
+        self.assertEqual(
+            datetime.strptime(
+                form_details['date_of_birth'], '%Y-%m-%d'
+            ).date(),
+            user.date_of_birth)
+        self.assertEqual(form_details['address'], user.address)
+        self.assertEqual(form_details['city'], user.city)
+        self.assertEqual(form_details['country'], user.country)
+        self.assertEqual(form_details['post_code'], user.post_code)
+        self.assertEqual(form_details['email'], user.email)
+        self.assertTrue(user.check_password(form_details['password1']))
+
+        # check that page returns to...
+        self.assertContains(
+            response, 'Confirmation e-mail sent to ' + form_details['email'])
 
 
 class ProfilePageTests(TestCase):
