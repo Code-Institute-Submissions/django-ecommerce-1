@@ -17,7 +17,7 @@ services:
             - DB_PORT=${DB_PORT}
             - STRIPE_TEST_PUBLISHABLE_KEY=${STRIPE_TEST_PUBLISHABLE}
             - STRIPE_TEST_SECRET_KEY=${STRIPE_TEST_SECRET}
-        command: python manage.py runserver 0.0.0.0:8000 --settings=settings.local
+        command: gunicorn petstore.wsgi -b 0.0.0.0:8000 
         volumes:
             - .:/code
         ports:
