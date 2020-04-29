@@ -12,7 +12,7 @@ before_script:
 
 script:
     - docker-compose run web flake8
-    - docker-compose run web coverage run manage.py collectstatic --settings=settings.test
+    - docker-compose run web coverage run manage.py collectstatic --noinput --settings=settings.test
     - docker-compose run web coverage run manage.py test --settings=settings.test
 
 after_success:
