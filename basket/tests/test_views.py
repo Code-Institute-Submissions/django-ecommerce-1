@@ -207,10 +207,11 @@ class ViewBasketTest(TestCase):
 
     def test_basket_is_emptied_upon_logout(self):
         """Test that basket is cleared when a user logs out of account"""
-        username = 'test@user.com'
+        email = 'test@user.com'
         password = 'pass1234'
         user = get_user_model().objects.create_user(
-            username=username,
+            username=email,
+            email=email,
             password=password)
         user_basket = Basket.objects.create(user=user)
 
@@ -224,7 +225,7 @@ class ViewBasketTest(TestCase):
             basket=user_basket, product=self.product2, quantity=quantity2)
 
         # log in to user account (returns boolean)
-        logged_in = self.client.login(username=username, password=password)
+        logged_in = self.client.login(email=email, password=password)
 
         # make sure the user logged in successfully
         self.assertTrue(logged_in)
@@ -424,12 +425,12 @@ class GetBasketTest(TestCase):
 
     def setUp(self):
         self.basket_url = reverse('basket')
-        self.username = 'test@test.com'
+        self.email = 'test@test.com'
         self.password = 'test1234'
 
         self.user = get_user_model().objects.create_user(
-            username=self.username,
-            email=self.username,
+            username=self.email,
+            email=self.email,
             password=self.password)
         # create a basket for the user
         self.basket = Basket.objects.create(user=self.user)
@@ -489,7 +490,7 @@ class GetBasketTest(TestCase):
         # log in to user account - expect basket above to merge with the basket
         # created in setUp() method
         login_details = {
-            'login': self.username,
+            'login': self.email,
             'password': self.password
         }
 

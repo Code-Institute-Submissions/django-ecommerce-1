@@ -52,7 +52,9 @@ class ProductListViewTest(TestCase):
 
         # create user
         self.user = get_user_model().objects.create_user(
-            username='test_user@email.com', password='pass123')
+            username='test_user@email.com',
+            email='test_user@email.com',
+            password='pass123')
 
     def test_view_url_exists(self):
         """Check that the hardcoded page exists"""
@@ -170,7 +172,9 @@ class ProductDetailView(TestCase):
 
         # create user
         self.user = get_user_model().objects.create_user(
-            username='test_user@email.com', password='pass123')
+            username='test_user@email.com',
+            email='test_user@email.com',
+            password='pass123')
 
     def test_view_url_exists(self):
         """Check that the hardcoded page exists"""
@@ -313,6 +317,7 @@ class ProductReviewTest(TestCase):
         for user_number in range(number_of_users):
             dummy_user[user_number] = get_user_model().objects.create_user(
                 username=f'test_user{user_number}@email.com',
+                email=f'test_user{user_number}@email.com',
                 password='pass123')
 
             # create review for user and product
@@ -359,6 +364,7 @@ class ProductReviewTest(TestCase):
         # create temp account and log-in to it
         user = get_user_model().objects.create_user(
             username=f'test_user@email.com',
+            email=f'test_user@email.com',
             password='pass123')
         self.client.force_login(user=user)
         response = self.client.get(self.reverse_url)
@@ -374,6 +380,7 @@ class ProductReviewTest(TestCase):
 
         user = get_user_model().objects.create_user(
             username='test_user@email.com',
+            email='test_user@email.com',
             password='pass123')
 
         Review.objects.create(product=self.product, rating=3,
@@ -417,7 +424,9 @@ class ProductCreateView(TestCase):
 
     def setUp(self):
         self.user = get_user_model().objects.create_user(
-            username='test_user@email.com', password='pass123')
+            username='test_user@email.com',
+            email='test_user@email.com',
+            password='pass123')
 
         self.manual_url = '/products/create/'
         self.reverse_url = reverse('product_create')
@@ -478,7 +487,9 @@ class ProductUpdateView(TestCase):
 
     def setUp(self):
         self.user = get_user_model().objects.create_user(
-            username='test_user@email.com', password='pass123')
+            username='test_user@email.com',
+            email='test_user@email.com',
+            password='pass123')
 
         self.product_details = {
             'title': 'Doggie Treats',
@@ -559,7 +570,9 @@ class ProductDeleteView(TestCase):
 
     def setUp(self):
         self.user = get_user_model().objects.create_user(
-            username='test_user@email.com', password='pass123')
+            username='test_user@email.com',
+            email='test_user@email.com',
+            password='pass123')
 
         self.product_details = {
             'title': 'Doggie Treats',
@@ -639,7 +652,9 @@ class ProductSearchResultsView(TestCase):
 
     def setUp(self):
         self.user = get_user_model().objects.create_user(
-            username='test_user@email.com', password='pass123')
+            username='test_user@email.com',
+            email='test_user@email.com',
+            password='pass123')
 
         self.product_details = {
             'title': 'Doggie Treats',
@@ -715,7 +730,9 @@ class ProductSearchResultsView(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.request['PATH_INFO'], '/products/search/')
-        self.assertContains(response, '<div class="card product-list-item">')
+        self.assertContains(response, '<div class="product">')
+        self.assertNotContains(response, 'Your search did not return any '
+                               'results - please try another search term')
 
     def test_view_does_not_show_products_non_live_products(self):
         """Search should not return products where is_live=False"""
