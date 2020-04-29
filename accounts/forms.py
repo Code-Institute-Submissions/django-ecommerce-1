@@ -15,7 +15,7 @@ class CustomUserCreationForm(UserCreationForm):
         model = get_user_model()
         fields = ('email', 'password1', 'password2', 'first_name',
                   'last_name', 'date_of_birth', 'address', 'city',
-                  'country', 'post_code', 'username')
+                  'country', 'post_code')
 
 
 class CustomUserChangeForm(UserChangeForm):
@@ -33,12 +33,12 @@ class CustomSignupForm(SignupForm):
     city = forms.CharField(max_length=50)
     country = forms.CharField(max_length=100)
     post_code = forms.CharField(max_length=30)
-    date_of_birth = forms.DateField()
+    date_of_birth = forms.DateField(label='Date of Birth (YYYY-MM-DD)')
 
     def save(self, request):
         """Add additional fields to be saved"""
         user = super(CustomSignupForm, self).save(request)
-
+        user.username = self.cleaned_data['email']
         user.first_name = self.cleaned_data['first_name']
         user.last_name = self.cleaned_data['last_name']
         user.address = self.cleaned_data['address']
