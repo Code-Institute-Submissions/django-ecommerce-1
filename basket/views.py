@@ -149,6 +149,8 @@ def get_basket(sender, user, request, **kwargs):
 
                 if basket:
                     # basket exists, update user to current user
-                    basket.update(user=user)
+                    basket.user = user
+                    basket.save()
             except Basket.DoesNotExist:
+                # user does not have a basket
                 pass
