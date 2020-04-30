@@ -1,14 +1,30 @@
 
 # Pet Store Ecommerce Application
 
-[![Build Status](https://travis-ci.org/jyoung90ie/django-petstore.svg?branch=master)](https://travis-ci.org/jyoung90ie/django-petstore)
+[![Build Status](https://travis-ci.org/jyoung90ie/django-ecommerce.svg?branch=master)](https://travis-ci.org/jyoung90ie/django-ecommerce)
 [![codecov](https://codecov.io/gh/jyoung90ie/django-ecommerce/branch/master/graph/badge.svg)](https://codecov.io/gh/jyoung90ie/django-ecommerce)
 
-This is a project for the final milestone project at [Code Institute](https://codeinstitute.net/) to demonstrate my learning and understanding throughout the course. I chose to develop an ecommerce shopping website as it is a complex and flexible application which challenged my understanding of the technologies involved. Given the sensitivity involved in handling customer details I had to approach development from a security conscious perspective. 
+This is a project for the final milestone project at [Code Institute](https://codeinstitute.net/) to demonstrate my learning and understanding throughout the course. I chose to develop an ecommerce shopping website as it is a complex and flexible application which challenged my understanding of the technologies involved. Given the sensitivity involved in handling customer details I had to approach development from a security conscious perspective.
 
 Overall I believe I produced an application that is very adaptable and can be repurposed for many ecommerce applications, including subscriptions and transactional services. There are a number of features which I would have liked to include for submission of my milestone project, however, due to time constraints these were not feasible at this point-in-time.
 
+## Deployed Application
+
+You can access the application [here](https://jy-djangoapp.herokuapp.com). If you wish to test account functionality, demo accounts have been provided below. Please note email functionality has not been configured yet, any messages related to emails can be ignored.
+
+## Demonstration Data & Accounts
+
+To enable you to test the website functionality, a number of demo accounts, products, and, transactions have been created. You can access this data using the accounts below. Note delete permissions have not been included to preserve test data.
+
+| Email | Password | Desription |
+| ----- | -------- | ---------- |
+| customer@test.com | test_1234 | Customer account with an multiple orders. |
+| staff@test.com | test_1234 | Staff account with create and update permissions to the Product model, but no permission to admin area. You will see dropdown menus appear on product listing and product detail page |
+| admin@test.com | test_1234 | Admin account with create and update permissions to all custom models, these are accessible in the access admin area. |
+
 ## UX
+
+Given this application is for an ecommerce website, the design is very product and customer centric. It has been designed to enable a customer to add items to their basket, and checkout and pay as seamlessly as possible. All pertinent product information is highlighted upfront, for example, price and rating, to keep customers informed. The menu becomes fixed at the top so the user always knows where they are and can quickly navigate to where they want to go.
 
 ### Wireframes
 
@@ -16,32 +32,56 @@ Prior to development of the application, I developed a number of wireframes whic
 
 ### User Stories
 
-Include User Stores here
+#### Customer
+
+As a customer I want to be able to...
+
+- Add products to my basket as I browse the website, so that I can continue to browse the website and add more items if I wish.
+- Specify the quantity I would like of each item in my basket, so that I can order multiple items.
+- Search for products, so I can quickly determine if a product is stocked, or find a product I ordered previously.
+- View product ratings and reviews, so that I can see feedback from other users to determine if a product is a good fit for me.
+- Add reviews for products I have purchased, so that I feel that I can contribute to product development and community.
+- Pay for my basket of products using my bank card, so that I do not need to do any unneccessary steps, like bank transfers.
+- View my order history, so that I can see a breakdown of items I've previously purchased.
+- View the status of my order(s), so that I have confidence that my order is being processed.
+- update my personal details, including email and password, so that I can self-service as needed.
+- create and pay for an order without any unneccessary steps, so that I can quickly place orders on-the-go.
+- Trust that the company I am transacting with will handle my data securely, so that I do not need to worry about fraud.
+- View detailed product information, so that I can drill into the specific product information I need, for example, product dimensions.
+
+#### Store Owner
+
+As the store owner, I want the ability to ...
+
+- Add new products and have them automatically display on the website, so that customers can purchase them.
+- Edit product details, for example, price and stock.
+- Remove products from display, so that if I have supply issues I can prevent customers from viewing it.
+- View the status of all customer orders, so that I can efficiently manage the orders.
+- View the most popular products, so that I can ensure I maintain higher stock levels for these items.
+- Link customer orders to the Stripe PaymentIntent dashboard, so that I can verify custom payment details, if I need to.
+- Manage customer reviews, so that I any inappropriate content can be removed if necessary.
+- Update individual items with a customer's order, so that I can keep customers informed and to manage my workflow.
+- Update customer orders, so that customers are notified in realtime.
+- View all active baskets, so that I can issue targeted discounts to increase basket conversion.
+
 
 ## Features
 
 ### Existing Features
 
-This package enables you to build and deploy a functional e-commerce website, with payment processing through the secure third-party service, [Stripe](https://stripe.com/).
+This package enables you to build and deploy a functional ecommerce website, with payment processing through the secure third-party service, [Stripe](https://stripe.com/).
 
-The package has been broken into individual apps, the features of which are detailed below:
+The package has been broken into individual apps, the features of which are detailed under each of the headings below.
 
 #### Custom User Model
 
-To capture additional user information, such as address, I opted to overrid
-the default Django user model and create a custom one. This enabled me to store
-all the necessary user data in one object. It will also make any future user
-model changes easier to make.
+To capture additional user information, such as address, I opted to override the default Django user model and create a custom one. This enabled me to store all the necessary user data in one object. It will also make any future user model changes easier to make.
 
-Given the additional data input requirements, I had to specify custom forms in
-order to capture all the required information. This included overriding Django
-default forms, for example, the admin forms for adding/modifying user details.
+Given the additional data input requirements, I had to specify custom forms in order to capture all the required information. This included overriding Django default forms, for example, the admin forms for adding/modifying user details.
 
 #### Accounts
 
-This is where all customer information is retained via the custom user model. I also made the decision
-to use Django-allauth which added the ability to override the username field, using the email address
-as the login. It also brought with it the ability to verify email addresses and reset passwords.
+This is where all customer information is retained via the custom user model. I also made the decision to use Django-allauth which added the ability to override the username field, using the email address as the login. It also brought with it the ability to verify email addresses and reset passwords.
 
 Within this app I have overriden a number of the default forms provided by allauth to integrate with the customer user model. To produce responsive forms I have used the django-crispy-forms helper function which allows me to create custom form layouts with individual element styling. I have also modified the rendering of the django admin site for the user object, to provide a better structure.
 
@@ -135,7 +175,7 @@ The Products app provides the majority of the application's functionality. It de
 
 The Product model enables the site administrator to add/edit/remove products, with custom templates (i.e. outside Django Admin), providing a layer of seperation, with only staff given permission to do so. For example, if a member of staff only needs to add/edit/remove products, they can be given the individual permissions to these functions and access them from the front-end website, they do not need access to the Django Admin area.
 
-From the front-end user perspective, this app provides the views and templates to list the products and enable the user to interact with them. It also enables users to add reviews for products they have purchased.
+From the front-end user perspective, this app provides the views and templates to list the products and enable the user to interact with them. It also enables users to add reviews for products.
 
 The functionality of this app is detailed below:
 
@@ -143,7 +183,7 @@ a) **Add/Edit/Remove Products from the Front-end:** Custom views have been writt
 
 Having this functionality built-in to the main website, and not hidden away in the Django Admin area, makes for a more user friendly experience.
 
-b) **Product Views:** Products are displayed either in list form, for multiple views, or in detail form, for a specific product. Within the detail view a user will be able to view product reviews, and add their own, if they have purchased the product previously. Listing views are paginated.
+b) **Product Views:** Products are displayed either in list form, for multiple views, or in detail form, for a specific product. Within the detail view a user will be able to view product reviews, and add their own, in future this will be confined to users that have purchased the product. Listing views are paginated.
 
 Product ratings are displayed for all products, which are an aggregate of the review scores for each product. The rating stars are produced using a Django custom template tag as detailed below.
 
@@ -153,7 +193,7 @@ The search functionality performs a case-insensitive search across the product f
 
 d) **Custom Template Tags:** In order to provide a more visual and user friendly experience for product reviews I wanted to provide star rating. To do so I had to write a custom templatetag which takes in the average product rating and uses this to produce HTML output which assigns the 'checked' class to all those stars up to and including the score. For example, a product with an average rating of 3 will have 3 stars render with 'checked' css class and 2 stars render with 'unchecked'.
 
-e) **Product Reviews:** As noted previously, product ratings are displayed throughout the ecommerce application. These are driven by product reviews. Product reviews can only be left by users who have purchased a product previously. If the user has access to do so, a form will be automatically displayed on the product detail view.
+e) **Product Reviews:** As noted previously, product ratings are displayed throughout the ecommerce application. These are driven by product reviews. If the user has access to do so, a form will be automatically displayed on the product detail view.
 
 f) **Customised Admin Functionality:** Similarly to the customisation made for the Basket object, the Product Admin has been customised to list all product reviews under the product within the admin website. This makes it easy to manage product reviews.
 
@@ -170,6 +210,8 @@ c) **test.py:** this contains the settings required to deploy to my test environ
 d) **production.py:** these are the settings used for deployment in the production environment.
 
 ### Features to be implemented
+
+- Email configuration to enable the application to send emails
 
 - Automated stock control
 
@@ -199,6 +241,8 @@ d) **production.py:** these are the settings used for deployment in the producti
 - [JavaScript](https://www.w3schools.com/Js/)
   - This language enables an interactive element to be added to websites, permitting realtime responsive pages.
   - I have used to this to create a payment.js file for interacting with Stripe v3. The JS functionality listens for responses from the Stripe API and provides feedback accordingly. If the payment is successful, a hidden input field is added to the form with a Stripe PaymentIntent ID, for verifying on the server when the form is submitted.
+  - To use Bootstrap tabs with the template I had to write custom JS code to override the default Bootstrap.js function and replace it with code that worked for me.
+  - The navigation menu becomes fixed once the user scrolls past the header and brand container, this is achieved using custom JS code and Bootstrap classes.
 
 - [Python](https://www.python.org/)
   - This is the server side language the application has been developed using.
@@ -262,6 +306,20 @@ d) **production.py:** these are the settings used for deployment in the producti
 Within the overall ecommerce application, each app has a testing module which contains extensive unit testing. This is all visible within Github and will demonstrate the extent of the testing. However, if you would like to understand the coverage of the unit testing this can be found on at the [CodeCov repo](hhttps://codecov.io/gh/jyoung90ie/django-ecommerce/)
 
 ### Manual
+
+In addition to the automated testing, I conducted some manual testing across a number of browsers and devices. This was to ensure, the pages rendered as expected, and that screen space was optimally utilised.
+
+| # | Test | Test Criteria | Result |
+|---|------|--------|------|
+| 1 | Website is displayed correctly on multiple browsers | Tested on Chrome, Safari, and Edge | Passed |
+| 2 | Website is responsive and displayed correctly on multiple devices | Tested on Macbook Pro, Windows Laptop, Samsung S9+, and iPhone | Passed |
+| 3 | Forms do not permit entry of invalid data; invalid entries receive an error message | Attempting to update basket quantity to more than the maximum permitted amount (i.e. > 5) | Passed |
+| 4 | All links work | Check that all links are work | Passed |
+| 5 | Images, icons, and buttons render correctly | Visual inspection of every page | Passed |
+
+### Known bugs
+
+- When running the automated testing suite, product objects are created which require images. The images created are not deleted after the tests have run, these need to be manually removed each time.
 
 ## Deployment
 
@@ -366,6 +424,25 @@ heroku run python manage.py createsuperuser --settings=settings.production
 https://dashboard.heroku.com/apps/app-name-here/deploy/
 ```
 
+17. To enable product images to be uploaded you will need to install django-storages and use Amazon S3 to store media files. Follow [this excellent guide](https://testdriven.io/blog/storing-django-static-and-media-files-on-amazon-s3/) to set this up. Follow all the steps for creating an S3 bucket, assigning access, and retrieving the keys to access it. Once you have the access keys you can proceed to the step below.
+
+18. You will need to create some additional environment variables in Heroku - these are outlined below and are self-explantory. (See Steps 6-8 above for a refresher on creating Heroku environment variables)
+
+| KEY  | VALUE |
+| ---- | ----- |
+| `USE_S3` | `TRUE` |
+| `AWS_ACCESS_KEY_ID` | access key you created in Step 17 |
+| `AWS_SECRET_ACCESS_KEY` | access key you created in Step 17 |
+| `AWS_STORAGE_BUCKET_NAME` | the name of the bucket you created in Step 17 |
+
+19. Run the below command in the Heroku CLI:
+
+```terminal
+heroku run python manage.py collectstatic --noinput --settings=settings.production
+```
+
+19. Your Heroku deployment is now operational. You can access it via the Heroku dashboard.
+
 ### Local machine deployment
 
 If you wish to deploy this application to your local system, you can do so by following the steps below:
@@ -426,10 +503,28 @@ docker-compose exec web python manage.py createsuperuser --settings=settings.pro
 http://127.0.0.1:8000
 ```
 
+
+
 ## Credits
+
+### Content
+
+- [About Page](http://www.petbusiness.com/A-Short-History-of-the-Pet-Industry/)
+
+### Media
+
+- [Product Images](https://images.google.com/)
+  - All product images were sourced from Google.
 
 ### Acknowledgements
 
-[Homepage Carousel](https://azmind.com/bootstrap-carousel-multiple-items/)
+- [Theme Wagon](https://demo.themewagon.com/preview/free-bootstrap-ecommerce-template)
+  - I leveraged the product layout and some styling from this template and embedded it with my own styling and tweaks.
 
-[Django for Professionals by William S. Vincent](https://wsvincent.com/books/djangoforprofessionals): This book helped me embed some best practices throughout development, including the value of using Docker for development and deployment. I highly recommend it.
+- [UI Cookies - Bootstrap Footer](https://uicookies.com/bootstrap-footer/)
+  - I leveraged the templates on this page to create the footer.
+
+- [Homepage Carousel](https://azmind.com/bootstrap-carousel-multiple-items/)
+
+- [Django for Professionals by William S. Vincent](https://wsvincent.com/books/djangoforprofessionals)
+  - This book helped me embed some best practices throughout development, including the value of using Docker for development and deployment. I highly recommend it.
