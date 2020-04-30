@@ -36,6 +36,23 @@ main {
     vertical-align: middle;
 }
 
+#top-header .header-login {
+    color: white;
+    height: 30px;
+    background: rgba(0, 146, 214, 0.384);
+    display: inline-flex;
+    padding: 0 15px;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 700;
+    transition: 0.2s all;
+}
+
+#top-header a:hover {
+    background: rgba(0, 146, 214, 1);
+
+}
+
 .header-links {
     display: flex;
     justify-content: space-between;
@@ -161,8 +178,11 @@ span.cart-badge {
 .product-body .product-title {
     text-transform: uppercase;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 1rem;
     transition: 0.4s all;
+    height: 2.5rem;
+    /* maintain structure */
+    overflow: hidden;
 }
 
 .product-body .product-title:hover {
@@ -218,6 +238,34 @@ span.cart-badge {
 }
 
 /* ./product listing */
+
+/* product pagination */
+.pagination li.page-item {
+    height: 40px;
+    width: 40px;
+    text-align: center;
+    margin: 0 7px;
+}
+
+.pagination .page-link {
+    color: #0092D6;
+    transition: 0.3s all;
+}
+
+.pagination .page-link:hover {
+    color: #ffffff;
+    background: rgba(0, 146, 214, 0.5);
+    font-weight: 700;
+}
+
+
+.pagination .page-item.active .page-link {
+    background-color: #0092D6;
+    border-color: #0092D6;
+}
+
+
+/* ./pagination */
 
 /* product detail */
 .product-image {
@@ -378,6 +426,10 @@ span.cart-badge {
     min-height: 70px;
 }
 
+.reviews .review-body p {
+    white-space: pre-line;
+}
+
 .reviews .review-heading .name {
     font-size: 14px;
     margin-bottom: 5px;
@@ -392,37 +444,6 @@ span.cart-badge {
 
 .reviews .review-heading .review-rating {
     margin-top: 5px;
-}
-
-.reviews-pagination {
-    text-align: center;
-}
-
-.reviews-pagination li {
-    display: inline-block;
-    width: 35px;
-    height: 35px;
-    line-height: 35px;
-    text-align: center;
-    background-color: #FFF;
-    border: 1px solid #E4E7ED;
-    transition: 0.2s all;
-}
-
-.reviews-pagination li:hover {
-    background-color: #E4E7ED;
-    color: #0092D6;
-}
-
-.reviews-pagination li.active {
-    background-color: #0092D6;
-    border-color: #0092D6;
-    color: #FFF;
-    cursor: default;
-}
-
-.reviews-pagination li a {
-    display: block;
 }
 
 /* ./review tab */

@@ -18,7 +18,7 @@ class ProductListView(ListView):
     queryset = Product.objects.get_queryset().annotate(
         rating=Avg('reviews__rating')).order_by('id')
     template_name = 'products/product_list.html'
-    paginate_by = 6
+    paginate_by = 8
 
 
 class ProductDetail(View):
@@ -125,7 +125,7 @@ class ProductSearchResultsView(ListView):
         rating=Avg('reviews__rating')).order_by('id')
     # to avoid inconsistent pagination results order by id
     template_name = 'products/product_search_results.html'
-    paginate_by = 6
+    paginate_by = 8
 
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
