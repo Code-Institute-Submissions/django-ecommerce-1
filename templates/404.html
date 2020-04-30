@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %} | 404 Error{% endblock title %}
+{% block content %}
+<h1>Page Not Found</h1>
+<p>The page you were trying to access does not appear to exist. Are you sure you went the right way?</p>
+<a href="{% url 'home' %}" class="btn btn-primary">Let's get you back to safety!</a>
+{% crispy form %}
+{% endblock content %}
