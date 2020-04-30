@@ -22,6 +22,12 @@ ol {
     list-style: none
 }
 
+/* this keeps the footer at the bottom of the page if there is not enough content */
+main {
+    /* minus HEADER minus NAVBAR minus FOOTER */
+    min-height: calc(100vh - 47px - 56px - 319px);
+}
+
 /* header bar */
 #top-header {
     position: relative;
@@ -52,7 +58,34 @@ ol {
 
 
 /* navbar */
+.nav-search {
+    display: flex;
+    flex: row;
+    margin: 0 auto;
+}
 
+.nav-search input[type=text] {
+    width: 90px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+.nav-search input[type=text]:focus {
+    width: 80%;
+}
+
+.nav-search .search-btn {
+    background: transparent;
+    outline: none;
+    font-size: 20px;
+    border-width: 0;
+    -webkit-transition: 0.4s all;
+    transition: 0.4s all;
+}
+
+.nav-search:hover .search-btn {
+    color: #0092D6;
+}
 
 /* homepage */
 
@@ -72,7 +105,7 @@ ol {
 }
 
 .basket-nav a {
-    font-size: 18px;
+    font-size: 24px;
     color: rgb(123, 126, 133);
     -webkit-transition: 0.2s all;
     transition: 0.2s all;
@@ -110,13 +143,16 @@ span.cart-badge {
 .product .product-img {
     position: relative;
     height: 200px;
+    /* fill background to cover transition if img isn't big enough */
+    background: #ffffff;
 }
 
 .product .product-img>img {
     position: relative;
     margin: auto;
+    height: 200px;
     width: 100%;
-    max-height: 190px;
+    object-fit: contain;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 }
@@ -131,7 +167,7 @@ span.cart-badge {
 .product-body .product-title {
     text-transform: uppercase;
     font-weight: 500;
-    font-size: 15px;
+    font-size: 16px;
     -webkit-transition: 0.4s all;
     transition: 0.4s all;
 }
@@ -200,6 +236,7 @@ span.cart-badge {
 
 .product-image>img {
     width: 100%;
+    object-fit: contain;
 }
 
 .product-details .product-title {
@@ -498,3 +535,102 @@ ul.order-items {
     margin: 0;
     padding: 0;
 }
+
+
+
+/* footer */
+.footer-bs {
+    background-color: #0092D6;
+    margin-top: 30px;
+    padding: 30px 40px 20px 40px;
+    color: #ffffff;
+}
+
+.footer-bs .footer-brand,
+.footer-bs .footer-nav,
+.footer-bs .footer-social {
+    padding: 10px 25px;
+}
+
+.footer-bs .footer-nav,
+.footer-bs .footer-social {
+    border-color: transparent;
+    margin-bottom: 10px;
+}
+
+.footer-bs .footer-brand h2 {
+    margin: 0px 0px 10px;
+}
+
+.footer-bs .footer-brand p {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.70);
+}
+
+.footer-bs .footer-brand ul,
+.footer-bs .footer-brand li {
+    margin: 0 0 10px 5px;
+}
+
+.footer-bs .footer-nav ul.technologies {
+    list-style: none;
+    padding: 0px;
+}
+
+.footer-bs .footer-nav ul.technologies li {
+    padding: 5px 0px;
+}
+
+.footer-bs .footer-nav ul.technologies a {
+    color: rgba(255, 255, 255, 1.00);
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.footer-bs .footer-nav ul.technologies a:hover {
+    color: rgba(255, 255, 255, 0.80);
+    text-decoration: none;
+}
+
+.footer-bs .footer-nav h4 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+}
+
+
+.footer-bs .footer-social ul {
+    list-style: none;
+    padding: 0px;
+}
+
+.footer-bs .footer-social h4 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.footer-bs .footer-social li {
+    padding: 5px 4px;
+}
+
+.footer-bs .footer-social a {
+    color: rgba(255, 255, 255, 1.00);
+}
+
+.footer-bs .footer-social a:hover {
+    color: rgba(255, 255, 255, 0.80);
+    text-decoration: none;
+}
+
+
+@media (min-width: 768px) {
+
+    .footer-bs .footer-nav,
+    .footer-bs .footer-social {
+        border-left: solid 1px rgba(255, 255, 255, 0.10);
+    }
+}
+
+/* ./footer */
