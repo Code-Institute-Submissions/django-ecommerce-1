@@ -18,3 +18,7 @@ class HomePageView(TemplateView):
         context['new_products'] = Product.objects.annotate(
             rating=Avg('reviews__rating')).order_by('-id')[:5]
         return context
+
+
+class AboutView(TemplateView):
+    template_name = 'pages/about.html'

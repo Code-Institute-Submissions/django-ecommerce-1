@@ -69,6 +69,9 @@
                 <li class="nav-item {% if 'products' in request.path %}active{% endif %}">
                     <a href="{% url 'product_list' %}" class="nav-link">Products</a>
                 </li>
+                <li class="nav-item {% if 'about' in request.path %}active{% endif %}">
+                    <a href="{% url 'about' %}" class="nav-link">About</a>
+                </li>
             </ul>
             <ul class="navbar-nav account-nav">
                 {% if user.is_authenticated %}

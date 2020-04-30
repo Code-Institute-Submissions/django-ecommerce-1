@@ -93,12 +93,12 @@ main {
     color: #ffffff;
 }
 
-.basket-nav a {
+li.basket-nav a {
     font-size: 31px;
     transition: 0.2s all;
 }
 
-.basket-nav a:hover {
+li.basket-nav a:hover i {
     color: #0092D6;
 }
 
@@ -154,6 +154,11 @@ ul.account-nav {
 
 .unchecked {
     color: #cfcfc4;
+}
+
+/* about page */
+.about {
+    white-space: pre-line;
 }
 
 
