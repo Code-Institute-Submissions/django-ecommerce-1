@@ -56,10 +56,6 @@ class Order(models.Model):
         return f'Date: {self.order_date} - User: {self.user.username} - ID: ' \
             f'{self.id} - Items: {self.item_count()}'
 
-    # def get_absolute_url(self):
-    #     """return user order page"""
-    #     pass
-
     def item_count(self):
         """output the number of items ordered"""
         count = self.orderitem_set.all().count()
