@@ -92,34 +92,39 @@ def get_basket(sender, user, request, **kwargs):
             new_items_basket = request.basket
             new_items = []
 
-            # loop through new items and store as list of dictionaries
-            for item in new_items_basket.basketitem_set.all():
-                new_items += [{
-                    'product': item.product,
-                    'quantity': item.quantity
-                }]
+            try:
+                # loop through new items and store as list of dictionaries
+                for item in new_items_basket.basketitem_set.all():
+                    new_items += [{
+                        'product': item.product,
+                        'quantity': item.quantity
+                    }]
 
-            # check list against existing basket, add new, update existing
-            for item in new_items:
-                basket_item, new = BasketItem.objects.get_or_create(
-                    basket=existing_basket, product=item['product'])
+                # check list against existing basket, add new, update existing
+                for item in new_items:
+                    basket_item, new = BasketItem.objects.get_or_create(
+                        basket=existing_basket, product=item['product'])
 
-                if new:
-                    quantity = item['quantity']
-                else:
-                    # add existing quantity to new basket quantity
-                    quantity = basket_item.quantity + item['quantity']
+                    if new:
+                        quantity = item['quantity']
+                    else:
+                        # add existing quantity to new basket quantity
+                        quantity = basket_item.quantity + item['quantity']
 
-                # check quantity does not exceed maximum permissable amount
-                if quantity > 5:
-                    quantity = 5
-                    messages.warning(
-                        request, f"Product '{item['product']}' exceeded the \
-                            maximum quantity, quantity set to maximum \
-                                permittable amount.")
-                # set quantity and save object
-                basket_item.quantity = quantity
-                basket_item.save()
+                    # check quantity does not exceed maximum permissable amount
+                    if quantity > 5:
+                        quantity = 5
+                        messages.warning(
+                            request, f"Product '{item['product']}' exceeded the \
+                                maximum quantity, quantity set to maximum \
+                                    permittable amount.")
+                    # set quantity and save object
+                    basket_item.quantity = quantity
+                    basket_item.save()
+            except Exception as e:
+                # capture exceptions coming from no basket items
+                print(e)
+                pass
 
             # provide feedback to user
             messages.info(
