@@ -64,34 +64,52 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item {% if request.path == '' %}active{% endif %}">
-                    <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{% url 'home' %}">Home
+                        {% if request.path == '' %}<span class="sr-only">(current)</span>{% endif %}
+                    </a>
                 </li>
                 <li class="nav-item {% if 'products' in request.path %}active{% endif %}">
-                    <a href="{% url 'product_list' %}" class="nav-link">Products</a>
+                    <a href="{% url 'product_list' %}" class="nav-link">Products
+                        {% if 'products' in request.path %}<span class="sr-only">(current)</span>{% endif %}
+                    </a>
                 </li>
                 <li class="nav-item {% if 'about' in request.path %}active{% endif %}">
-                    <a href="{% url 'about' %}" class="nav-link">About</a>
+                    <a href="{% url 'about' %}" class="nav-link">About
+                        {% if 'about' in request.path %}<span class="sr-only">(current)</span>{% endif %}
+                    </a>
                 </li>
             </ul>
             <ul class="navbar-nav account-nav">
                 {% if user.is_authenticated %}
                 <li
                     class="nav-item {% if 'accounts' in request.path and 'logout' not in request.path %}active{% endif %}">
-                    <a href="{% url 'account_profile' %}" class="nav-link">Profile</a>
+                    <a href="{% url 'account_profile' %}" class="nav-link">Profile
+                        {% if 'accounts' in request.path and 'logout' not in request.path %}<span
+                            class="sr-only">(current)</span>{% endif %}
+                    </a>
                 </li>
                 <li
                     class="nav-item {% if 'history' in request.path and 'logout' not in request.path %}active{% endif %}">
-                    <a href="{% url 'order_history' %}" class="nav-link">Order History</a>
+                    <a href="{% url 'order_history' %}" class="nav-link">Order History
+                        {% if 'history' in request.path and 'logout' not in request.path %}<span
+                            class="sr-only">(current)</span>{% endif %}
+                    </a>
                 </li>
                 <li class="nav-item {% if 'logout' in request.path %}active{% endif %}">
-                    <a href="{% url 'account_logout' %}" class="nav-link">Logout</a>
+                    <a href="{% url 'account_logout' %}" class="nav-link">Logout
+                        {% if 'logout' in request.path %}<span class="sr-only">(current)</span>{% endif %}
+                    </a>
                 </li>
                 {% else %}
                 <li class="nav-item {% if 'signup' in request.path %}active{% endif %}">
-                    <a href="{% url 'account_signup' %}" class="nav-link">Register</a>
+                    <a href="{% url 'account_signup' %}" class="nav-link">Register
+                        {% if 'signup' in request.path %}<span class="sr-only">(current)</span>{% endif %}
+                    </a>
                 </li>
                 <li class="nav-item {% if 'login' in request.path %}active{% endif %}">
-                    <a href="{% url 'account_login' %}" class="nav-link">Login</a>
+                    <a href="{% url 'account_login' %}" class="nav-link">Login
+                        {% if 'login' in request.path %}<span class="sr-only">(current)</span>{% endif %}
+                    </a>
                 </li>
                 {% endif %}
                 <li class="nav-item d-md-none mt-2 mb-2">
