@@ -23,9 +23,10 @@ class ViewCheckoutTest(TestCase):
             title = f'Doggie Treats {product_number}'
             brand = 'Pawfect'
             category = 'Dog'
-            price = round(random.uniform(0, 50), 2)
+            # stripe only accepts payment amounts > 0.50
+            price = round(random.uniform(1, 50), 2)
             description = 'Doggie Treats'
-            stock = round(random.uniform(0, 100), 2)
+            stock = int(random.uniform(0, 100))
             is_live = True
 
             product_details = {
@@ -142,3 +143,46 @@ class ViewCheckoutTest(TestCase):
         # run tests
         self.assertTemplateUsed(
             response, template_name='checkout/order_processing.html')
+
+    def test_checkout_submission_with_invalid_stripe_token(self):
+        """Create a POST submission for the checkout form with all necessary
+        fields, including an invalid stripe-token"""
+
+        # get user object
+        user = self.user
+
+        # login
+        self.client.force_login(user=user)
+
+        # add products via http request
+        url = reverse('add_to_basket', kwargs={'product_id': self.product1.id})
+        # load page (execute add to basket)
+        self.client.get(url)
+
+        # create form data
+        name = f'{user.first_name} {user.last_name}'
+        form_details = {
+            'billing_name': name,
+            'billing_address': user.address,
+            'billing_city': user.city,
+            'billing_country': user.country,
+            'billing_post_code': user.address,
+            'shipping_name': name,
+            'shipping_address': user.address,
+            'shipping_city': user.city,
+            'shipping_country': user.country,
+            'shipping_post_code': user.address,
+            # stripe-token is invalid, expect an error
+            'stripe-token': 'test123'
+        }
+
+        # submit form
+        response = self.client.post(
+            self.reverse_url, data=form_details, follow=True)
+
+        # run tests
+        self.assertTemplateUsed(
+            response, template_name='checkout/order_processing.html')
+        self.assertContains(response,
+                            'There was a problem processing your order, '
+                            'please try again.')
