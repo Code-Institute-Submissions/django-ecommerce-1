@@ -100,7 +100,7 @@ class ProductListViewTest(TestCase):
         """Make sure only the specified number of products per paged"""
         response = self.client.get(self.reverse_url)
         self.assertTrue('is_paginated' in response.context)
-        self.assertEqual(len(response.context['product_list']), 6)
+        self.assertEqual(len(response.context['product_list']), 8)
 
     def test_view_does_not_contain_admin_not_logged_in(self):
         """When not logged in, user should not see admin options"""
@@ -772,7 +772,7 @@ class ProductSearchResultsView(TestCase):
         Product.objects.all().delete()
 
         # add products to test pagination
-        number_of_products = 7
+        number_of_products = 9
 
         for product_number in range(number_of_products):
             title = f'Doggie Treats {product_number}'
@@ -803,6 +803,8 @@ class ProductSearchResultsView(TestCase):
         search_terms = '?keywords=Pawfect'
         response = self.client.get(self.reverse_url + search_terms)
 
+        # page will only be paginated if number of products created is greater
+        # than the pagination number
         self.assertTrue('is_paginated' in response.context)
         self.assertTrue(response.context['is_paginated'])
-        self.assertEqual(len(response.context['search_results']), 6)
+        self.assertEqual(len(response.context['search_results']), 8)
