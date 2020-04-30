@@ -8,20 +8,60 @@
 {% endblock %}
 
 {% block content %}
-<div>
-    <h1>Logo here</h1>
+
+{% if most_popular %}
+<h3>Most Popular</h3>
+<div id="carousel-most-popular" class="carousel slide" data-ride="carousel" data-interval="false">
+    <div class="carousel-inner row w-100 mx-auto" role="listbox">
+        {% for product in most_popular %}
+        <div
+            class="most-popular carousel-item col-12 col-sm-6 col-md-4 col-lg-3{% if forloop.counter == 1 %} active{% endif %} text-center">
+            <div class="product">
+                <div class="product-img">
+                    <img src="{{ product.image.url }}" alt="Product image">
+                </div>
+                <div class="product-body">
+                    <h5 class="product-title">{{ product.title }}</h5>
+                    <h6 class="product-price">€{{ product.price }}</h6>
+                    <div class="product-rating">
+                        {% autoescape off %}
+                        {{ product.rating|star_generator }}
+                        {% endautoescape %}
+                    </div>
+                </div>
+                <div class="product-options">
+                    <a href="{% url 'add_to_basket' product_id=product.id %}" data-toggle="tooltip"
+                        data-placement="right" title="Add to Basket">
+                        <i class="fas fa-cart-plus"></i>
+                    </a>
+                    <a href="{{ product.get_absolute_url }}" data-toggle="tooltip" data-placement="right"
+                        title="View Product">
+                        <i class="fas fa-eye"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <a class="carousel-control-prev" href="#carousel-most-popular" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carousel-most-popular" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
 </div>
+{% endif %}
 
-
-<div class="container-fluid">
-    {% if most_popular %}
-    <div class="most-popular-container"></div>
-    <h3>Most Popular</h3>
-    <div id="carousel-most-popular" class="carousel slide" data-ride="carousel" data-interval="false">
+{% if new_products %}
+<div class="new-products-container">
+    <h3>New Products</h3>
+    <div id="carousel-new-products" class="carousel slide" data-ride="carousel" data-interval="false">
         <div class="carousel-inner row w-100 mx-auto" role="listbox">
-            {% for product in most_popular %}
+            {% for product in new_products %}
             <div
-                class="most-popular carousel-item col-12 col-sm-6 col-md-4 col-lg-3{% if forloop.counter == 1 %} active{% endif %} text-center">
+                class="new-products carousel-item col-12 col-sm-6 col-md-4 col-lg-3{% if forloop.counter == 1 %} active{% endif %} text-center">
                 <div class="product">
                     <div class="product-img">
                         <img src="{{ product.image.url }}" alt="Product image">
@@ -49,64 +89,17 @@
             </div>
             {% endfor %}
         </div>
-        <a class="carousel-control-prev" href="#carousel-most-popular" role="button" data-slide="prev">
+        <a class="carousel-control-prev" href="#carousel-new-products" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
         </a>
-        <a class="carousel-control-next" href="#carousel-most-popular" role="button" data-slide="next">
+        <a class="carousel-control-next" href="#carousel-new-products" role="button" data-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
         </a>
     </div>
-    {% endif %}
-
-    {% if new_products %}
-    <div class="new-products-container">
-        <h3>New Products</h3>
-        <div id="carousel-new-products" class="carousel slide" data-ride="carousel" data-interval="false">
-            <div class="carousel-inner row w-100 mx-auto" role="listbox">
-                {% for product in new_products %}
-                <div
-                    class="new-products carousel-item col-12 col-sm-6 col-md-4 col-lg-3{% if forloop.counter == 1 %} active{% endif %} text-center">
-                    <div class="product">
-                        <div class="product-img">
-                            <img src="{{ product.image.url }}" alt="Product image">
-                        </div>
-                        <div class="product-body">
-                            <h5 class="product-title">{{ product.title }}</h5>
-                            <h6 class="product-price">€{{ product.price }}</h6>
-                            <div class="product-rating">
-                                {% autoescape off %}
-                                {{ product.rating|star_generator }}
-                                {% endautoescape %}
-                            </div>
-                        </div>
-                        <div class="product-options">
-                            <a href="{% url 'add_to_basket' product_id=product.id %}" data-toggle="tooltip"
-                                data-placement="right" title="Add to Basket">
-                                <i class="fas fa-cart-plus"></i>
-                            </a>
-                            <a href="{{ product.get_absolute_url }}" data-toggle="tooltip" data-placement="right"
-                                title="View Product">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-            <a class="carousel-control-prev" href="#carousel-new-products" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carousel-new-products" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
-        </div>
-    </div>
-    {% endif %}
 </div>
+{% endif %}
 
 {% endblock %}
 

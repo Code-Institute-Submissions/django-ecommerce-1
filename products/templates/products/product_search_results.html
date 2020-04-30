@@ -2,9 +2,11 @@
 
 {% block title %} | Search Results{% endblock %}
 {% block content %}
-<h1>Products</h1>
+<h1>Search Results</h1>
+
+{% if search_results %}
+<p>Your search returned the following results:</p>
 <div class="row">
-    {% if search_results %}
     {% for product in search_results %}
     {% if product.is_live %}
     {% include 'partials/_product_listing.html' %}
@@ -15,8 +17,8 @@
     {% include 'partials/_product_pagination.html' %}
     {% endif %}
     {# end pagination section #}
-    {% else %}
-    <p>Your search did not return any results - please try another search term.</p>
-    {% endif %}
 </div>
+{% else %}
+<p>Your search did not return any results - please try another search term.</p>
+{% endif %}
 {% endblock %}
