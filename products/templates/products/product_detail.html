@@ -7,7 +7,6 @@
 {% block content %}
 
 <div class="row">
-
     <!-- main product image -->
     <div class="col-md-6">
         <div class="product-image">
@@ -47,16 +46,13 @@
     <!-- product description/reviews -->
     <div class="col-12">
         <div id="product-extras">
-
-
-
             <ul class="tab-nav" id="product-tabs" role="tablist">
                 <li class="active">
                     <a id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description"
                         aria-selected="true">Description</a>
                 </li>
                 <li>
-                    <a id="review-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews"
+                    <a id="reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews"
                         aria-selected="false">Reviews</a>
                 </li>
                 <li>
@@ -88,7 +84,7 @@
                             </div>
                         </li>
                         {% empty %}
-                        <p>This product does not yet have any reviews. You can be the first!</p>
+                        <li>This product does not yet have any reviews. You can be the first!</li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -100,6 +96,9 @@
                     {% else %}
                     <p>You have already submitted a review for this product.</p>
                     {% endif %}
+                    {% else %}
+                    <p>You need to <a href="{% url 'account_signup' %}">Register</a> or <a
+                            href="{% url 'account_login' %}">Login</a> to leave a review. </p>
                     {% endif %}
                 </div>
             </div>

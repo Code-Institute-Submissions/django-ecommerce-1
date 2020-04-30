@@ -7,7 +7,7 @@
             <li><i class="fas fa-truck"></i> Free Shipping for all orders during the demonstration period!</li>
             <li>
                 {% if request.user.is_authenticated %}
-                <span class="dropdown">
+                <div class="dropdown">
                     <a class="btn btn-sm btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-user pr-1"></i> {{ user.first_name|title }}
@@ -29,7 +29,7 @@
                         </li>
                     </ul>
 
-                </span>
+                </div>
                 {% else %}
                 <a href="{% url 'account_login' %}"><i class="fa fa-user"></i> Login</a>
                 {% endif %}
@@ -91,63 +91,3 @@
         </div>
     </div>
 </nav>
-
-
-
-<!-- 
-<header class="header">
-    <div class="header__top">
-        <div class="container">
-            <div class="row">
-   
-                <div class="col-lg-6 col-md-6">
-                    <div class="header__top__right">
-                        
-                        <div class="header__top__right__auth">
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3">
-                <div class="header__logo">
-                    <a href="./index.html"><img src="img/logo.png" alt=""></a>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <nav class="header__menu">
-                    <ul>
-                        <li class="active"><a href="./index.html">Home</a></li>
-                        <li><a href="./shop-grid.html">Shop</a></li>
-                        <li><a href="#">Pages</a>
-                            <ul class="header__menu__dropdown">
-                                <li><a href="./shop-details.html">Shop Details</a></li>
-                                <li><a href="./shoping-cart.html">Shoping Cart</a></li>
-                                <li><a href="./checkout.html">Check Out</a></li>
-                                <li><a href="./blog-details.html">Blog Details</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="./blog.html">Blog</a></li>
-                        <li><a href="./contact.html">Contact</a></li>
-                    </ul>
-                </nav>
-            </div>
-            <div class="col-lg-3">
-                <div class="header__cart">
-                    <ul>
-                        <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                        <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
-                    </ul>
-                    <div class="header__cart__price">item: <span>$150.00</span></div>
-                </div>
-            </div>
-        </div>
-        <div class="humberger__open">
-            <i class="fa fa-bars"></i>
-        </div>
-    </div>
-</header> -->
