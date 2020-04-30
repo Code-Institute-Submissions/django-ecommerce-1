@@ -6,9 +6,10 @@
 {% block title %} | Order History{% endblock title %}
 
 {% block content %}
-<h1 class="m-4">Order History</h1>
-{% spaceless %}
+<h1>Order History</h1>
 
+{% spaceless %}
+{% if object_list %}
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
@@ -50,5 +51,9 @@
         </tbody>
     </table>
 </div>
+{% else %}
+<p>You do not have orders. When you place an order you can check back here to see its status and breakdown.</p>
+{% endif %}
+
 {% endspaceless %}
 {% endblock content %}
