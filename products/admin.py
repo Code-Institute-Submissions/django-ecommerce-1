@@ -10,11 +10,13 @@ class ReviewInline(admin.TabularInline):
 
 class ProductAdmin(admin.ModelAdmin):
     """Update view for admin panel"""
+    list_display = ('title', 'brand', 'category', 'price', 'is_live')
+    list_editable = ('is_live',)
+    list_filter = ('is_live', 'brand', )
+
     inlines = [
         ReviewInline,
     ]
-
-    list_display = ('title', 'brand', 'category', 'price', )
 
 
 admin.site.register(Product, ProductAdmin)
