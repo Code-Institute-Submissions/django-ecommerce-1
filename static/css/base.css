@@ -5,7 +5,6 @@ body {
 
 a {
     text-decoration: none;
-    -webkit-transition: 0.2s all;
     transition: 0.2s all;
 }
 
@@ -66,7 +65,6 @@ main {
 
 .nav-search input[type=text] {
     width: 90px;
-    -webkit-transition: width 0.4s ease-in-out;
     transition: width 0.4s ease-in-out;
 }
 
@@ -79,7 +77,6 @@ main {
     outline: none;
     font-size: 20px;
     border-width: 0;
-    -webkit-transition: 0.4s all;
     transition: 0.4s all;
 }
 
@@ -89,9 +86,7 @@ main {
 
 /* homepage */
 
-.best-sellers-container {
-    background-color: #0092D6;
-}
+.best-sellers-container {}
 
 .new-products-container {}
 
@@ -107,7 +102,6 @@ main {
 .basket-nav a {
     font-size: 24px;
     color: rgb(123, 126, 133);
-    -webkit-transition: 0.2s all;
     transition: 0.2s all;
 }
 
@@ -123,13 +117,13 @@ span.cart-badge {
 
 /* product listing */
 .product {
+    background: #ffffff;
     position: relative;
     margin: 15px 0;
     border-radius: 5px;
     -webkit-box-shadow: 0px 0px 0px 0px #E4E7ED, 0px 0px 0px 1px #E4E7ED;
     box-shadow: 0px 0px 0px 0px #E4E7ED, 0px 0px 0px 1px #E4E7ED;
     /* border: 1px solid #E4E7ED; */
-    -webkit-transition: 0.8s all;
     transition: 0.8s all;
 }
 
@@ -168,7 +162,6 @@ span.cart-badge {
     text-transform: uppercase;
     font-weight: 500;
     font-size: 16px;
-    -webkit-transition: 0.4s all;
     transition: 0.4s all;
 }
 
@@ -215,7 +208,6 @@ span.cart-badge {
     height: 40px;
     line-height: 40px;
     color: rgba(0, 0, 0, 0.7);
-    -webkit-transition: 0.6s all;
     transition: 0.6s all;
 }
 
@@ -288,8 +280,6 @@ span.cart-badge {
     border-radius: 5px;
     margin-top: 25px;
     padding: 6px 15px;
-
-    -webkit-transition: 0.3s all;
     transition: 0.3s all;
 }
 
@@ -360,7 +350,6 @@ span.cart-badge {
     width: 0%;
     height: 2px;
     background-color: #0092D6;
-    -webkit-transition: 0.2s all;
     transition: 0.2s all;
 }
 
@@ -417,7 +406,6 @@ span.cart-badge {
     text-align: center;
     background-color: #FFF;
     border: 1px solid #E4E7ED;
-    -webkit-transition: 0.2s all;
     transition: 0.2s all;
 }
 

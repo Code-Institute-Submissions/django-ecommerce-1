@@ -1,21 +1,21 @@
 // initialise tooltips
 $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-})
+    $('[data-toggle="tooltip"]').tooltip();
+});
 
 // carousel ids
-var bestsellerCarousel = '#carousel-most-popular'
-var newProductCarousel = '#carousel-new-products'
+var bestsellerCarousel = '#carousel-most-popular';
+var newProductCarousel = '#carousel-new-products';
 
 // individual carousel item selector classes
-var bestSellerIdentifier = '.most-popular'
-var newProductIdentifier = '.new-products'
+var bestSellerIdentifier = '.most-popular';
+var newProductIdentifier = '.new-products';
 
 // generic item selector class - will be differentiated via parent-child relationship
-var carouselInner = '.carousel-inner'
+var carouselInner = '.carousel-inner';
 
 // list all carousels, seperated by ','
-var carousels = bestsellerCarousel + ', ' + newProductCarousel
+var carousels = bestsellerCarousel + ', ' + newProductCarousel;
 
 
 // homepage carousel event listener
@@ -27,16 +27,19 @@ $(carousels).on('slide.bs.carousel', function (e) {
 
     var $e = $(e.relatedTarget);
 
+    var carousel;
+    var item;
+
     if (this.id == bestsellerCarousel.substr(1)) {
-        var carousel = bestsellerCarousel
-        var item = bestSellerIdentifier
+        carousel = bestsellerCarousel;
+        item = bestSellerIdentifier;
     } else {
-        var carousel = newProductCarousel
-        var item = newProductIdentifier
+        carousel = newProductCarousel;
+        item = newProductIdentifier;
     }
 
     // given multiple carousels, select child inner of event carousel
-    var carouselInnerIdentifier = carousel + ' > ' + carouselInner
+    var carouselInnerIdentifier = carousel + ' > ' + carouselInner;
 
     var idx = $e.index();
     var itemsPerSlide = 4;
