@@ -22,6 +22,7 @@ card.addEventListener('change', ({
 
 // submit eventhandler for payment form
 var form = document.getElementById('payment-form');
+var errorContainer = document.getElementById('card-errors');
 
 // get billing details 
 var name = document.getElementById('id_billing_name');
@@ -48,9 +49,13 @@ form.addEventListener('submit', function (ev) {
             }
         }
     }).then(function (response) {
+        // reset any previous error messages
+        errorContainer.innerHTML = '';
+
         if (response.error) {
             // return any error messages to console
-            console.log(response.error.message);
+            errorContainer.innerHTML = '<strong>Error: </strong>'
+            errorContainer.innerHTML += response.error.message;
         } else {
             if (response.paymentIntent.status === 'succeeded') {
                 // pass-through stripe response
