@@ -1,5 +1,5 @@
 
-# Pet Store Ecommerce Application
+# THE Pet Store
 
 [![Build Status](https://travis-ci.org/jyoung90ie/django-ecommerce.svg?branch=master)](https://travis-ci.org/jyoung90ie/django-ecommerce)
 [![codecov](https://codecov.io/gh/jyoung90ie/django-ecommerce/branch/master/graph/badge.svg)](https://codecov.io/gh/jyoung90ie/django-ecommerce)
