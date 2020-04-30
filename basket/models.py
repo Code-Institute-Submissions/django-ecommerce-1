@@ -25,10 +25,6 @@ class Basket(models.Model):
     status = models.IntegerField(choices=BASKET_STATUS, default=IN_PROGRESS)
     created_date = models.DateField(auto_now_add=True)
 
-    def __str__(self):
-        return f'Created: {self.created_date} - Status: '
-        f'{self.BASKET_STATUS[self.status-1][1]} - User: {self.user}'
-
     def count(self):
         """Return total number of items in basket"""
         count = self.basketitem_set.aggregate(
