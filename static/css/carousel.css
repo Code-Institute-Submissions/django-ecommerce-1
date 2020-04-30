@@ -154,3 +154,11 @@
         visibility: visible;
     }
 }
+
+.carousel-control-next,
+.carousel-control-prev {
+    width: 5%;
+    min-width: 60px;
+    /* make the chevrons black */
+    filter: invert(100%);
+}
