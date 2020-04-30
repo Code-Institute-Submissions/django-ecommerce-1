@@ -2,96 +2,108 @@
 <!-- header bar above navigation -->
 <header class="d-none d-md-block">
     <div id="top-header">
-        <ul class="header-links">
-            <li><i class="fas fa-envelope"></i> help@thepetstore.demo</li>
-            <li><i class="fas fa-truck"></i> Free Shipping for all orders during the demonstration period!</li>
-            <li>
-                {% if request.user.is_authenticated %}
-                <div class="dropdown">
-                    <a class="btn btn-sm btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-user pr-1"></i> {{ user.first_name|title }}
-                    </a>
+        <div class="container">
+            <ul class="header-links">
+                <li><i class="fas fa-envelope"></i> help@thepetstore.demo</li>
+                <li><i class="fas fa-truck"></i> Free Shipping for all orders during the demonstration period!</li>
+                <li>
+                    {% if request.user.is_authenticated %}
+                    <i class="fa fa-user pr-1"></i> {{ user.first_name|title }}
 
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <li>
-                            <a href="{% url 'account_profile' %}"
-                                class="dropdown-item {% if 'accounts' in request.path and 'logout' not in request.path %}active{% endif %}">Profile</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'order_history' %}"
-                                class="dropdown-item {% if 'history' in request.path and 'logout' not in request.path %}active{% endif %}">Order
-                                History</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'account_logout' %}"
-                                class="dropdown-item {% if 'logout' in request.path %}active{% endif %}">Logout</a>
-                        </li>
-                    </ul>
-
-                </div>
-                {% else %}
-                <a class="header-login" href="{% url 'account_login' %}"><i class="fa fa-user"></i> Login</a>
-                {% endif %}
-            </li>
-        </ul>
+                    {% else %}
+                    <a class="header-login" href="{% url 'account_login' %}"><i class="fa fa-user"></i> Login</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
     </div>
 </header>
 <!-- ./header bar -->
-<nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
-    <div class="container-fluid">
-        <a href="{% url 'home' %}" class="navbar-brand">
-            <i class="fas fa-paw"></i> THE Pet Store
-        </a>
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav d-md-flex-row ml-md-auto d-md-flex order-md-2">
+<!-- brand container -->
+<div id="brand-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-9 col-md-5">
+                <a href="{% url 'home' %}" class="brand">
+                    <i class="fas fa-paw"></i> Pet Store
+                </a>
+            </div>
+            <div class="d-none d-md-block col-md-5">
+                <div class="nav-search">
+                    <form class="form-inline" action="{% url 'product_search' %}" method="GET">
+                        <input class="form-control mr-sm-2" name="keywords" type="text"
+                            {% if 'search' in request.path %} value="{{ search_keywords }}" {% else %}
+                            placeholder="Search" {% endif %} aria-label="Search">
+                        <button class="search-btn" type="submit" aria-label="Search"><i
+                                class="fas fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-3 col-md-2">
+                <ul>
+                    <li class="basket-nav">
+                        <a href="{% url 'basket' %}"><i class="fas fa-shopping-basket"></i></a>
+                        <span class="badge badge-pill badge-warning cart-badge">{{ request.basket.count }}</span>
+                    </li>
+                </ul>
+            </div>
 
-                <li class="nav-item">
-                    <a href="{% url 'product_list' %}"
-                        class="nav-link {% if 'products' in request.path %}active{% endif %}">Products</a>
+        </div>
+    </div>
+</div>
+<!-- ./brand container -->
+
+<!-- menu navbar -->
+<nav class="navbar navbar-expand-md navbar-light bg-light" id="menu-nav-bar">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="container">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item {% if request.path == '' %}active{% endif %}">
+                    <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
                 </li>
-                {% if user.is_authenticated %}
-                <li class="nav-item d-md-none">
-                    <a href="{% url 'account_profile' %}"
-                        class="nav-link {% if 'accounts' in request.path and 'logout' not in request.path %}active{% endif %}">Profile</a>
-                </li>
-                <li class="nav-item d-md-none">
-                    <a href="{% url 'order_history' %}"
-                        class="nav-link {% if 'history' in request.path and 'logout' not in request.path %}active{% endif %}">Order
-                        History</a>
-                </li>
-                <li class="nav-item d-md-none">
-                    <a href="{% url 'account_logout' %}"
-                        class="nav-link {% if 'logout' in request.path %}active{% endif %}">Logout</a>
-                </li>
-                {% else %}
-                <li class="nav-item">
-                    <a href="{% url 'account_signup' %}"
-                        class="nav-link {% if 'signup' in request.path %}active{% endif %}">Register</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{% url 'account_login' %}"
-                        class="nav-link {% if 'login' in request.path %}active{% endif %}">Login</a>
-                </li>
-                {% endif %}
-                <li class="nav-item basket-nav">
-                    <a href="{% url 'basket' %}"><i class="fas fa-shopping-basket"></i></a>
-                    <span class="badge badge-pill badge-warning cart-badge">{{ request.basket.count }}</span>
+                <li class="nav-item {% if 'products' in request.path %}active{% endif %}">
+                    <a href="{% url 'product_list' %}" class="nav-link">Products</a>
                 </li>
             </ul>
-
-            <div class="nav-search">
-                <form class="form-inline order-md-1" action="{% url 'product_search' %}" method="GET">
-                    <input class="form-control mr-sm-2" name="keywords" type="text" {% if 'search' in request.path %}
-                        value="{{ search_keywords }}" {% else %} placeholder="Search" {% endif %} aria-label="Search">
-                    <button class="search-btn" type="submit"><i class="fas fa-search"></i></button>
-                </form>
-            </div>
+            <ul class="navbar-nav account-nav">
+                {% if user.is_authenticated %}
+                <li
+                    class="nav-item {% if 'accounts' in request.path and 'logout' not in request.path %}active{% endif %}">
+                    <a href="{% url 'account_profile' %}" class="nav-link">Profile</a>
+                </li>
+                <li
+                    class="nav-item {% if 'history' in request.path and 'logout' not in request.path %}active{% endif %}">
+                    <a href="{% url 'order_history' %}" class="nav-link">Order History</a>
+                </li>
+                <li class="nav-item {% if 'logout' in request.path %}active{% endif %}">
+                    <a href="{% url 'account_logout' %}" class="nav-link">Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item {% if 'signup' in request.path %}active{% endif %}">
+                    <a href="{% url 'account_signup' %}" class="nav-link">Register</a>
+                </li>
+                <li class="nav-item {% if 'login' in request.path %}active{% endif %}">
+                    <a href="{% url 'account_login' %}" class="nav-link">Login</a>
+                </li>
+                {% endif %}
+                <li class="nav-item d-md-none mt-2 mb-2">
+                    <div class="nav-search">
+                        <form class="form-inline" action="{% url 'product_search' %}" method="GET">
+                            <input class="form-control mr-sm-2" name="keywords" type="text"
+                                {% if 'search' in request.path %} value="{{ search_keywords }}" {% else %}
+                                placeholder="Search" {% endif %} aria-label="Search">
+                            <button class="search-btn" type="submit" aria-label="Search"><i
+                                    class="fas fa-search"></i></button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>
+<!-- ./menu navbar -->

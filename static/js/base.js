@@ -3,6 +3,22 @@ $(function () {
     $('[data-toggle="tooltip"]').tooltip();
 });
 
+// make menu sticky once scroll past it
+var menuBarId = '#menu-nav-bar';
+// once the user goes beyond this point the menu becomes sticky
+var stickyPoint = 124;
+
+$(document).ready(() => {
+    $(window).scroll(() => {
+        if ($(window).scrollTop() > stickyPoint) {
+            $(menuBarId).addClass('fixed-top');
+        } else {
+            $(menuBarId).removeClass('fixed-top');
+        }
+    });
+});
+
+
 // carousel ids
 var bestsellerCarousel = '#carousel-most-popular';
 var newProductCarousel = '#carousel-new-products';
