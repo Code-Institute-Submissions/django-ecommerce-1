@@ -23,19 +23,24 @@ class OrderDetailsForm(forms.ModelForm):
             Fieldset('Billing Details',
                      Div(
                          Field('billing_name',
-                               wrapper_class='col-12 col-md-6', readonly=True),
+                               wrapper_class='col-12 col-md-6',
+                               readonly='readonly'),
 
                          Field('billing_address',
-                               wrapper_class='col-12 col-md-8', readonly=True),
+                               wrapper_class='col-12 col-md-8',
+                               readonly='readonly'),
 
                          Field('billing_post_code',
-                               wrapper_class='col-12 col-md-4', readonly=True),
+                               wrapper_class='col-12 col-md-4',
+                               readonly='readonly'),
 
                          Field('billing_city',
-                               wrapper_class='col-12 col-md-6', readonly=True),
+                               wrapper_class='col-12 col-md-6',
+                               readonly='readonly'),
 
                          Field('billing_country',
-                               wrapper_class='col-12 col-md-6', readonly=True),
+                               wrapper_class='col-12 col-md-6',
+                               readonly='readonly'),
 
                          css_class='row')
                      ),
