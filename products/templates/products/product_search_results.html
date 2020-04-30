@@ -4,23 +4,19 @@
 {% block content %}
 <h1>Products</h1>
 <div class="row">
-    <div class="col-12 col-md-9 col-lg-10">
-        <div class="row">
-            {% if search_results %}
-            {% for product in search_results %}
-            {% if product.is_live %}
-            {% include 'partials/_product_listing.html' %}
-            {% endif %}
-            {% endfor %}
-            {# pagination section #}
-            {% if is_paginated %}
-            {% include 'partials/_product_pagination.html' %}
-            {% endif %}
-            {# end pagination section #}
-            {% else %}
-            <p>Your search did not return any results - please try another search term.</p>
-            {% endif %}
-        </div>
-    </div>
+    {% if search_results %}
+    {% for product in search_results %}
+    {% if product.is_live %}
+    {% include 'partials/_product_listing.html' %}
+    {% endif %}
+    {% endfor %}
+    {# pagination section #}
+    {% if is_paginated %}
+    {% include 'partials/_product_pagination.html' %}
+    {% endif %}
+    {# end pagination section #}
+    {% else %}
+    <p>Your search did not return any results - please try another search term.</p>
+    {% endif %}
 </div>
 {% endblock %}

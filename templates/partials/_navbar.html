@@ -1,8 +1,47 @@
 {% load static %}
+<!-- header bar above navigation -->
+<header class="d-none d-md-block">
+    <div id="top-header">
+        <ul class="header-links">
+            <li><i class="fas fa-envelope"></i> help@thepetstore.demo</li>
+            <li><i class="fas fa-truck"></i> Free Shipping for all orders during the demonstration period!</li>
+            <li>
+                {% if request.user.is_authenticated %}
+                <span class="dropdown">
+                    <a class="btn btn-sm btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-user pr-1"></i> {{ user.first_name|title }}
+                    </a>
+
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li>
+                            <a href="{% url 'account_profile' %}"
+                                class="dropdown-item {% if 'accounts' in request.path and 'logout' not in request.path %}active{% endif %}">Profile</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'order_history' %}"
+                                class="dropdown-item {% if 'history' in request.path and 'logout' not in request.path %}active{% endif %}">Order
+                                History</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'account_logout' %}"
+                                class="dropdown-item {% if 'logout' in request.path %}active{% endif %}">Logout</a>
+                        </li>
+                    </ul>
+
+                </span>
+                {% else %}
+                <a href="{% url 'account_login' %}"><i class="fa fa-user"></i> Login</a>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+</header>
+<!-- ./header bar -->
 <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
     <div class="container-fluid">
         <a href="{% url 'home' %}" class="navbar-brand">
-            <i class="fas fa-paw"></i>Petstore</a>
+            <i class="fas fa-paw"></i> THE Pet Store</a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,29 +49,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav d-md-flex-row ml-md-auto d-md-flex order-md-2">
-                {% if user.is_authenticated %}
 
-                <li class="nav-item mr-md-3 d-none d-md-block">
-                    <div class="dropdown show">
-                        Welcome
-                        <a class="btn btn-sm btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ user.first_name|title }}
-                        </a>
-
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a href="{% url 'account_profile' %}"
-                                class="dropdown-item {% if 'accounts' in request.path and 'logout' not in request.path %}active{% endif %}">Profile</a>
-                            <a href="{% url 'order_history' %}"
-                                class="dropdown-item {% if 'history' in request.path and 'logout' not in request.path %}active{% endif %}">Order
-                                History</a>
-                            <a href="{% url 'account_logout' %}"
-                                class="dropdown-item {% if 'logout' in request.path %}active{% endif %}">Logout</a>
-                        </div>
-                    </div>
-                </li>
-
-                {% endif %}
                 <li class="nav-item">
                     <a href="{% url 'product_list' %}"
                         class="nav-link {% if 'products' in request.path %}active{% endif %}">Products</a>
@@ -61,8 +78,8 @@
                         class="nav-link {% if 'login' in request.path %}active{% endif %}">Login</a>
                 </li>
                 {% endif %}
-                <li class="nav-item ml-3">
-                    <a href="{% url 'basket' %}"><i class="fas fa-shopping-basket fa-2x text-dark"></i></a>
+                <li class="nav-item basket-nav">
+                    <a href="{% url 'basket' %}"><i class="fas fa-shopping-basket"></i></a>
                     <span class="badge badge-pill badge-warning cart-badge">{{ request.basket.count }}</span>
                 </li>
             </ul>
@@ -74,3 +91,63 @@
         </div>
     </div>
 </nav>
+
+
+
+<!-- 
+<header class="header">
+    <div class="header__top">
+        <div class="container">
+            <div class="row">
+   
+                <div class="col-lg-6 col-md-6">
+                    <div class="header__top__right">
+                        
+                        <div class="header__top__right__auth">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="header__logo">
+                    <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <nav class="header__menu">
+                    <ul>
+                        <li class="active"><a href="./index.html">Home</a></li>
+                        <li><a href="./shop-grid.html">Shop</a></li>
+                        <li><a href="#">Pages</a>
+                            <ul class="header__menu__dropdown">
+                                <li><a href="./shop-details.html">Shop Details</a></li>
+                                <li><a href="./shoping-cart.html">Shoping Cart</a></li>
+                                <li><a href="./checkout.html">Check Out</a></li>
+                                <li><a href="./blog-details.html">Blog Details</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="./blog.html">Blog</a></li>
+                        <li><a href="./contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-lg-3">
+                <div class="header__cart">
+                    <ul>
+                        <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
+                        <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                    </ul>
+                    <div class="header__cart__price">item: <span>$150.00</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="humberger__open">
+            <i class="fa fa-bars"></i>
+        </div>
+    </div>
+</header> -->

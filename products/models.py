@@ -16,6 +16,16 @@ class Product(models.Model):
     image = models.ImageField(null=True)
     is_live = models.BooleanField(default=True)
 
+    def review_count(self):
+        """Return total reviews for product"""
+        count = self.reviews.aggregate(
+            count=models.Count('rating'))['count']
+
+        if count is None:
+            count = 0
+
+        return count
+
     def __str__(self):
         """return product title by default"""
         return self.title

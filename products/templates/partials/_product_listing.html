@@ -1,19 +1,27 @@
 {% load myproduct_tags %}
 
-<div class="col-12 col-md-6 col-lg-4 mb-3">
-    <div class="card product-list-item">
-        <img class="card-img-top" src="{{ product.image.url }}" alt="Product image">
-        <div class="card-body">
-            <h5 class="card-title">{{ product.title }}</h5>
-            <p class="product-price">€{{ product.price }}</p>
-            <p class="product-rating">
+<div class="col-md-6 col-lg-3 mb-3">
+    <div class="product">
+        <div class="product-img">
+            <img src="{{ product.image.url }}" alt="Product image">
+        </div>
+        <div class="product-body">
+            <h5 class="product-title">{{ product.title }}</h5>
+            <h6 class="product-price">€{{ product.price }}</h6>
+            <div class="product-rating">
                 {% autoescape off %}
                 {{ product.rating|star_generator }}
                 {% endautoescape %}
-            </p>
-            <a href="{% url 'add_to_basket' product_id=product.id %}" class="btn btn-success">Add to
-                Basket</a>
-            <a href="{{ product.get_absolute_url }}" class="btn btn-primary">View</a>
+            </div>
+        </div>
+        <div class="product-options">
+            <a href="{% url 'add_to_basket' product_id=product.id %}" data-toggle="tooltip" data-placement="right"
+                title="Add to Basket">
+                <i class="fas fa-cart-plus"></i>
+            </a>
+            <a href="{{ product.get_absolute_url }}" data-toggle="tooltip" data-placement="right" title="View Product">
+                <i class="fas fa-eye"></i>
+            </a>
 
             <div class="float-right mt-2">
                 {% include 'partials/_product_admin.html' %}

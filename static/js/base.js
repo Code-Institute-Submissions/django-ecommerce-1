@@ -1,3 +1,8 @@
+// initialise tooltips
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+
 // carousel ids
 var bestsellerCarousel = '#carousel-most-popular'
 var newProductCarousel = '#carousel-new-products'
@@ -49,4 +54,19 @@ $(carousels).on('slide.bs.carousel', function (e) {
             }
         }
     }
+});
+
+
+/* product detail page tab class correction:
+ bootstrap adds classes to the child element (a), I need it on the parent
+ element (li)
+*/
+
+$('#product-tabs a').click(function (e) {
+    // prevent bootstrap default aciton
+    e.preventDefault();
+    // select and remove the 'active' class from the li that current has it
+    $('#product-tabs .active').removeClass('active');
+    // add 'active' class to the target li tag (parent of the <a> tag)
+    $(this).parent().addClass('active');
 });

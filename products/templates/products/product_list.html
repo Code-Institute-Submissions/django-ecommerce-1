@@ -4,31 +4,27 @@
 {% block content %}
 <h1>Products</h1>
 <div class="row">
-    <div class="col-12 col-md-9 col-lg-10">
-        <div class="row">
-            <div class="col-12">
-                <div class="float-right mb-2">
-                    {% include 'partials/_product_admin.html' %}
-                </div>
-            </div>
-
-            {% if product_list %}
-            {% for product in product_list %}
-            {% if product.is_live %}
-
-            {% include 'partials/_product_listing.html' %}
-
-            {% endif %}
-            {% endfor %}
-            {# pagination section #}
-            {% if is_paginated %}
-            {% include 'partials/_product_pagination.html' %}
-            {% endif %}
-            {# end pagination section #}
-            {% else %}
-            <p>There are currently no products to display. Please check back later.</p>
-            {% endif %}
+    <div class="col-12">
+        <div class="float-right mb-2">
+            {% include 'partials/_product_admin.html' %}
         </div>
     </div>
+
+    {% if product_list %}
+    {% for product in product_list %}
+    {% if product.is_live %}
+
+    {% include 'partials/_product_listing.html' %}
+
+    {% endif %}
+    {% endfor %}
+    {# pagination section #}
+    {% if is_paginated %}
+    {% include 'partials/_product_pagination.html' %}
+    {% endif %}
+    {# end pagination section #}
+    {% else %}
+    <p>There are currently no products to display. Please check back later.</p>
+    {% endif %}
 </div>
 {% endblock %}
