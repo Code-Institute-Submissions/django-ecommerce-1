@@ -485,7 +485,7 @@ docker-compose up -d --build
 | `DB_USER` | `postgres` |
 | `DB_PASS` | `postgres` |
 | `DB_HOST` | `db` |
-| `DB_HOST` | `5432` |
+| `DB_PORT` | `5432` |
 | `SECRET_KEY` | input-a-value-here |
 | `STRIPE_TEST_PUBLISHABLE` | input value from the Stripe deployment section |
 | `STRIPE_TEST_SECRET` | input value from the Stripe deployment section |
